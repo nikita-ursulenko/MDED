@@ -1,0 +1,95 @@
+{% block content %}
+	<section id="succes" class="py-20 bg-white">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="text-center mb-16">
+				<h2 class="text-5xl font-extrabold text-gray-900 mb-8">Istorii de succes</h2>
+				<p class="text-xl text-gray-600 max-w-4xl mx-auto">
+					Companiile care au beneficiat de ajutorul de stat au demonstrat rezultate remarcabile în dezvoltarea economică și crearea locurilor de muncă.
+				</p>
+			</div>
+
+			{% if success_stories is empty %}
+				<p class="text-center text-gray-500">Nu există istorii de succes.</p>
+			{% else %}
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{% for story in success_stories %}
+						{% set tittle = story.get_field('tittle_company') %}
+						{% set color = story.get_field('color') %}
+						{% set sector = story.get_field('sector') %}
+						{% set support = story.get_field('support_percenеnt') %}
+						{% set description = story.get_field('description') %}
+						{% set investment = story.get_field('investment') %}
+						{% set jobs = story.get_field('jobs') %}
+						{% set aid = story.get_field('aid_granted') %}
+
+						{% set gradientMap = {
+							'blue':    'from-blue-700 via-blue-700 to-blue-900',
+							'indigo':  'from-blue-700 via-blue-700 to-indigo-700',
+							'purple':  'from-blue-700 via-blue-700 to-purple-700',
+							'pink':    'from-blue-700 via-blue-700 to-pink-700',
+							'red':     'from-blue-700 via-blue-700 to-red-700',
+							'orange':  'from-blue-700 via-blue-700 to-orange-400',
+							'amber':   'from-blue-700 via-blue-700 to-amber-700',
+							'yellow':  'from-blue-700 via-blue-700 to-yellow-700',
+							'lime':    'from-blue-700 via-blue-700 to-lime-700',
+							'green':   'from-blue-700 via-blue-700 to-green-700',
+							'emerald': 'from-blue-700 via-blue-700 to-emerald-700',
+							'teal':    'from-blue-700 via-blue-700 to-teal-700',
+							'cyan':    'from-blue-700 via-blue-700 to-cyan-700',
+							'sky':     'from-blue-700 via-blue-700 to-sky-700'
+						} %}
+						{% set textMap = {
+							'blue':'text-blue-100','indigo':'text-indigo-100','purple':'text-purple-100','pink':'text-pink-100',
+							'red':'text-red-100','orange':'text-orange-100','amber':'text-amber-100','yellow':'text-yellow-100',
+							'lime':'text-lime-100','green':'text-green-100','emerald':'text-emerald-100','teal':'text-teal-100',
+							'cyan':'text-cyan-100','sky':'text-sky-100'
+						} %}
+						{% set overlayMap = {
+							'blue':'bg-blue-600','indigo':'bg-indigo-600','purple':'bg-purple-600','pink':'bg-pink-600',
+									'red':'bg-red-600','orange':'bg-orange-600','amber':'bg-amber-600','yellow':'bg-yellow-600',
+									'lime':'bg-lime-600','green':'bg-green-600','emerald':'bg-emerald-600','teal':'bg-teal-600',
+									'cyan':'bg-cyan-600','sky':'bg-sky-600'
+						} %}
+						{% set grad = gradientMap[color] ?? 'from-gray-500 to-gray-700' %}
+						{% set tx = textMap[color] ?? 'text-gray-100' %}
+						{% set ov = overlayMap[color] ?? 'bg-gray-200' %}
+
+						<div class="rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+							<div class="relative h-48 rounded-t-xl bg-gradient-to-br {{ grad }}">
+								<div class="absolute inset-0 "></div>
+								<div class="absolute bottom-4 left-6 text-white z-10">
+									<h3 class="text-2xl font-semibold mb-1">{{ tittle }}</h3>
+									<p class="{{ tx }} text-sm">{{ sector }}</p>
+								</div>
+								<div class="absolute top-4 right-4 bg-white/30 backdrop-blur rounded-lg px-3 py-1 z-10">
+									<span class="text-white text-sm font-semibold">{{ support }}% sprijin</span>
+								</div>
+							</div>
+
+							<div class="p-6">
+								<p class="text-gray-700 mb-6 text-sm leading-relaxed">{{ description }}</p>
+								<div class="grid grid-cols-2 gap-6 mb-6">
+									<div class="text-center p-4 bg-blue-50 rounded-lg">
+										<div class="text-xl font-semibold text-blue-600">{{ investment }}M</div>
+										<div class="text-xs text-gray-500">MDL investiție</div>
+									</div>
+									<div class="text-center p-4 bg-green-50 rounded-lg">
+										<div class="text-xl font-semibold text-green-600">{{ jobs }}</div>
+										<div class="text-xs text-gray-500">locuri muncă</div>
+									</div>
+								</div>
+								<div class="border-t border-gray-200 pt-4">
+									<div class="flex justify-between text-sm text-gray-600">
+										<span>Ajutor acordat:</span>
+										<span class="font-semibold text-green-600">{{ aid }}M MDL</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+	</section>
+{% endblock %}

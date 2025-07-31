@@ -1,0 +1,176 @@
+{% block content %}
+    <section id="criterii" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                {% set main_title = function('get_field', 'ec_main_title') %}
+                {% if main_title %}
+                    <h2 class="text-5xl font-bold text-gray-900 mb-8">{{ main_title }}</h2>
+                {% endif %}
+
+                {% set main_description = function('get_field', 'ec_main_description') %}
+                {% if main_description %}
+                    <div class="text-xl text-gray-600 max-w-4xl mx-auto">{{ main_description|raw }}</div> {# Use |raw because new_lines is wpautop #}
+                {% endif %}
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {# Criterion 1 #}
+                    {% set ec_point1_title = function('get_field', 'ec_point1_title') %}
+                    {% set ec_point1_description = function('get_field', 'ec_point1_description') %}
+                    {% if ec_point1_title or ec_point1_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point1_title %}<h3 class="font-semibold mb-2">{{ ec_point1_title }}</h3>{% endif %}
+                                {% if ec_point1_description %}<div class="text-gray-600">{{ ec_point1_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 2 #}
+                    {% set ec_point2_title = function('get_field', 'ec_point2_title') %}
+                    {% set ec_point2_description = function('get_field', 'ec_point2_description') %}
+                    {% if ec_point2_title or ec_point2_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point2_title %}<h3 class="font-semibold mb-2">{{ ec_point2_title }}</h3>{% endif %}
+                                {% if ec_point2_description %}<div class="text-gray-600">{{ ec_point2_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 3 #}
+                    {% set ec_point3_title = function('get_field', 'ec_point3_title') %}
+                    {% set ec_point3_description = function('get_field', 'ec_point3_description') %}
+                    {% if ec_point3_title or ec_point3_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point3_title %}<h3 class="font-semibold mb-2">{{ ec_point3_title }}</h3>{% endif %}
+                                {% if ec_point3_description %}<div class="text-gray-600">{{ ec_point3_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 4 #}
+                    {% set ec_point4_title = function('get_field', 'ec_point4_title') %}
+                    {% set ec_point4_description = function('get_field', 'ec_point4_description') %}
+                    {% if ec_point4_title or ec_point4_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point4_title %}<h3 class="font-semibold mb-2">{{ ec_point4_title }}</h3>{% endif %}
+                                {% if ec_point4_description %}<div class="text-gray-600">{{ ec_point4_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 5 #}
+                    {% set ec_point5_title = function('get_field', 'ec_point5_title') %}
+                    {% set ec_point5_description = function('get_field', 'ec_point5_description') %}
+                    {% if ec_point5_title or ec_point5_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point5_title %}<h3 class="font-semibold mb-2">{{ ec_point5_title }}</h3>{% endif %}
+                                {% if ec_point5_description %}<div class="text-gray-600">{{ ec_point5_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 6 #}
+                    {% set ec_point6_title = function('get_field', 'ec_point6_title') %}
+                    {% set ec_point6_description = function('get_field', 'ec_point6_description') %}
+                    {% if ec_point6_title or ec_point6_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point6_title %}<h3 class="font-semibold mb-2">{{ ec_point6_title }}</h3>{% endif %}
+                                {% if ec_point6_description %}<div class="text-gray-600">{{ ec_point6_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 7 #}
+                    {% set ec_point7_title = function('get_field', 'ec_point7_title') %}
+                    {% set ec_point7_description = function('get_field', 'ec_point7_description') %}
+                    {% if ec_point7_title or ec_point7_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point7_title %}<h3 class="font-semibold mb-2">{{ ec_point7_title }}</h3>{% endif %}
+                                {% if ec_point7_description %}<div class="text-gray-600">{{ ec_point7_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# Criterion 8 #}
+                    {% set ec_point8_title = function('get_field', 'ec_point8_title') %}
+                    {% set ec_point8_description = function('get_field', 'ec_point8_description') %}
+                    {% if ec_point8_title or ec_point8_description %}
+                        <div class="flex items-start space-x-4">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                {% if ec_point8_title %}<h3 class="font-semibold mb-2">{{ ec_point8_title }}</h3>{% endif %}
+                                {% if ec_point8_description %}<div class="text-gray-600">{{ ec_point8_description|raw }}</div>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# Important Note Block #}
+                {% set ec_important_note_text = function('get_field', 'ec_important_note_text') %}
+                {% if ec_important_note_text %}
+                    <div class="mt-12 p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" viewbox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm text-yellow-700">
+                                    {{ ec_important_note_text|raw }} {# Use |raw to render the <strong> tag #}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

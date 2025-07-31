@@ -1,0 +1,125 @@
+	<header
+		id="header"
+		class="w-full bg-white shadow-md top-0 left-0 z-50 md:static md:z-auto transition-all duration-300">
+
+		<!-- Верхняя часть шапки -->
+		<div class="bg-white max-w-7xl mx-auto py-4 px-6 flex items-center justify-between">
+			<div class="flex items-center">
+				<img src="{{ logo_url }}" alt="Logo" class="h-12 w-12 md:h-16 md:w-16 mr-3 md:mr-4">
+				<div class="flex flex-col">
+					<span class="text-gray-600 text-xs md:text-sm">Guvernul Republicii Moldova</span>
+					<h1 class="text-gray-800 font-bold text-lg md:text-xl lg:text-2xl">Ministerul Dezvoltării
+						<br>
+						Economice și Digitalizării</h1>
+				</div>
+			</div>
+
+			<button id="burger-button" class="burger lg:hidden flex flex-col justify-center items-center w-10 h-10">
+				<span class="burger-line block w-6 h-0.5 bg-blue-900 mb-1.5"></span>
+				<span class="burger-line block w-6 h-0.5 bg-blue-900 mb-1.5"></span>
+				<span class="burger-line block w-6 h-0.5 bg-blue-900"></span>
+			</button>
+		</div>
+
+		<div class="h-px bg-gray-300"></div>
+
+		<!-- Desktop nav -->
+		<div
+			id="nav_desk"
+			class="hidden lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center bg-gov-blue text-white max-w-7xl mx-auto px-6"
+			style="height: 64px;"
+		>
+			<div class="flex items-center">
+				<img src="{{ logo_url }}" alt="Logo" class="h-12 md:h-16 w-auto logo-white">
+			</div>
+
+			<nav class="flex justify-center">
+				<ul class="flex space-x-4">
+					{% for item in main_menu.items %}
+						<li class="nav-item {{ item.current ? 'active' : '' }}">
+							<a href="{{ item.link }}" class="block px-4 py-3 xl:px-6">{{ item.title }}</a>
+							{% if item.children %}
+								<ul class="sub-menu">
+									{% for child in item.children %}
+										<li class="nav-item {{ child.current ? 'active' : '' }}">
+											<a href="{{ child.link }}" class="block px-4 py-3 xl:px-6">{{ child.title }}</a>
+										</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</li>
+					{% else %}
+						<li class="nav-item px-4 py-3 xl:px-6 text-white">Меню пустое</li>
+					{% endfor %}
+				</ul>
+			</nav>
+
+			<div></div>
+		</div>
+
+		<!-- Mobile menu и overlay -->
+		<div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-64 bg-blue-900 text-white z-50 shadow-lg lg:hidden">
+			<div class="p-4 flex justify-between items-center border-b border-blue-800">
+				<span class="font-bold">Meniu</span>
+				<button id="close-menu" class="text-white">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+					</svg>
+				</button>
+			</div>
+			<ul>
+				{% for item in main_menu.items %}
+					<li class="border-b border-blue-800 {{ item.current ? 'bg-blue-800' : '' }}">
+						<a href="{{ item.link }}" class="block px-4 py-3 hover:bg-blue-800">{{ item.title }}</a>
+						{% if item.children %}
+							<ul>
+								{% for child in item.children %}
+									<li class="border-b border-blue-800 {{ child.current ? 'bg-blue-800' : '' }}">
+										<a href="{{ child.link }}" class="block px-4 py-3 hover:bg-blue-800">{{ child.title }}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</li>
+				{% else %}
+					<li class="px-4 py-3 text-white">Меню пустое</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div id="overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden lg:hidden"></div>
+	</header>
+
+	<style>
+	/* Класс фиксированного nav_desk */
+	#nav_desk.sticky {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1100;
+		box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+	}
+	</style>
+
+	<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const navDesk = document.getElementById('nav_desk');
+		if (!navDesk) return;
+
+		const navOffsetTop = navDesk.offsetTop;
+
+		window.addEventListener('scroll', () => {
+		const scrollY = window.scrollY || window.pageYOffset;
+
+		// Когда верх nav_desk ушел выше верхней грани окна — фиксируем
+		if (scrollY >= navOffsetTop) {
+			if (!navDesk.classList.contains('sticky')) {
+			navDesk.classList.add('sticky');
+			}
+		} else {
+			navDesk.classList.remove('sticky');
+		}
+		});
+	});
+	</script>

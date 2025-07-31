@@ -1,0 +1,253 @@
+{% block content %}
+    <!-- Procedura de aplicare -->
+    <section id="procedura" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                {% set ap_main_title = function('get_field', 'ap_main_title') %}
+                {% if ap_main_title %}
+                    <h2 class="text-5xl font-bold text-gray-900 mb-8">{{ ap_main_title }}</h2>
+                {% endif %}
+
+                {% set ap_main_description = function('get_field', 'ap_main_description') %}
+                {% if ap_main_description %}
+                    <div class="text-xl text-gray-600 max-w-4xl mx-auto">{{ ap_main_description|raw }}</div>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Left: Roadmap -->
+                <div class="lg:col-span-2">
+                    <div class="relative">
+                        <!-- Vertical Line -->
+                        <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gov-blue"></div>
+
+                        <div class="space-y-8">
+                            {# Шаг 1 #}
+                            {% set ap_step1_title = function('get_field', 'ap_step1_title') %}
+                            {% set ap_step1_description = function('get_field', 'ap_step1_description') %}
+                            {% set ap_step1_note_label = function('get_field', 'ap_step1_note_label') %}
+                            {% set ap_step1_note_text = function('get_field', 'ap_step1_note_text') %}
+                            {% if ap_step1_title or ap_step1_description or ap_step1_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                                    {% if ap_step1_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step1_title }}</h3>{% endif %}
+                                    {% if ap_step1_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step1_description|raw }}</div>{% endif %}
+                                    {% if ap_step1_note_label or ap_step1_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step1_note_label %}<strong>{{ ap_step1_note_label }}</strong>{% endif %}
+                                            {% if ap_step1_note_text %}{{ ap_step1_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 2 #}
+                            {% set ap_step2_title = function('get_field', 'ap_step2_title') %}
+                            {% set ap_step2_description = function('get_field', 'ap_step2_description') %}
+                            {% set ap_step2_note_label = function('get_field', 'ap_step2_note_label') %}
+                            {% set ap_step2_note_text = function('get_field', 'ap_step2_note_text') %}
+                            {% if ap_step2_title or ap_step2_description or ap_step2_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                                    {% if ap_step2_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step2_title }}</h3>{% endif %}
+                                    {% if ap_step2_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step2_description|raw }}</div>{% endif %}
+                                    {% if ap_step2_note_label or ap_step2_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step2_note_label %}<strong>{{ ap_step2_note_label }}</strong>{% endif %}
+                                            {% if ap_step2_note_text %}{{ ap_step2_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 3 #}
+                            {% set ap_step3_title = function('get_field', 'ap_step3_title') %}
+                            {% set ap_step3_description = function('get_field', 'ap_step3_description') %}
+                            {% set ap_step3_note_label = function('get_field', 'ap_step3_note_label') %}
+                            {% set ap_step3_note_text = function('get_field', 'ap_step3_note_text') %}
+                            {% if ap_step3_title or ap_step3_description or ap_step3_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                                    {% if ap_step3_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step3_title }}</h3>{% endif %}
+                                    {% if ap_step3_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step3_description|raw }}</div>{% endif %}
+                                    {% if ap_step3_note_label or ap_step3_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step3_note_label %}<strong>{{ ap_step3_note_label }}</strong>{% endif %}
+                                            {% if ap_step3_note_text %}{{ ap_step3_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 4 #}
+                            {% set ap_step4_title = function('get_field', 'ap_step4_title') %}
+                            {% set ap_step4_description = function('get_field', 'ap_step4_description') %}
+                            {% set ap_step4_note_label = function('get_field', 'ap_step4_note_label') %}
+                            {% set ap_step4_note_text = function('get_field', 'ap_step4_note_text') %}
+                            {% if ap_step4_title or ap_step4_description or ap_step4_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">4</div>
+                                    {% if ap_step4_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step4_title }}</h3>{% endif %}
+                                    {% if ap_step4_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step4_description|raw }}</div>{% endif %}
+                                    {% if ap_step4_note_label or ap_step4_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step4_note_label %}<strong>{{ ap_step4_note_label }}</strong>{% endif %}
+                                            {% if ap_step4_note_text %}{{ ap_step4_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 5 #}
+                            {% set ap_step5_title = function('get_field', 'ap_step5_title') %}
+                            {% set ap_step5_description = function('get_field', 'ap_step5_description') %}
+                            {% set ap_step5_note_label = function('get_field', 'ap_step5_note_label') %}
+                            {% set ap_step5_note_text = function('get_field', 'ap_step5_note_text') %}
+                            {% if ap_step5_title or ap_step5_description or ap_step5_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">5</div>
+                                    {% if ap_step5_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step5_title }}</h3>{% endif %}
+                                    {% if ap_step5_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step5_description|raw }}</div>{% endif %}
+                                    {% if ap_step5_note_label or ap_step5_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step5_note_label %}<strong>{{ ap_step5_note_label }}</strong>{% endif %}
+                                            {% if ap_step5_note_text %}{{ ap_step5_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 6 #}
+                            {% set ap_step6_title = function('get_field', 'ap_step6_title') %}
+                            {% set ap_step6_description = function('get_field', 'ap_step6_description') %}
+                            {% set ap_step6_note_label = function('get_field', 'ap_step6_note_label') %}
+                            {% set ap_step6_note_text = function('get_field', 'ap_step6_note_text') %}
+                            {% if ap_step6_title or ap_step6_description or ap_step6_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">6</div>
+                                    {% if ap_step6_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step6_title }}</h3>{% endif %}
+                                    {% if ap_step6_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step6_description|raw }}</div>{% endif %}
+                                    {% if ap_step6_note_label or ap_step6_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step6_note_label %}<strong>{{ ap_step6_note_label }}</strong>{% endif %}
+                                            {% if ap_step6_note_text %}{{ ap_step6_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 7 #}
+                            {% set ap_step7_title = function('get_field', 'ap_step7_title') %}
+                            {% set ap_step7_description = function('get_field', 'ap_step7_description') %}
+                            {% set ap_step7_note_label = function('get_field', 'ap_step7_note_label') %}
+                            {% set ap_step7_note_text = function('get_field', 'ap_step7_note_text') %}
+                            {% if ap_step7_title or ap_step7_description or ap_step7_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">7</div>
+                                    {% if ap_step7_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step7_title }}</h3>{% endif %}
+                                    {% if ap_step7_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step7_description|raw }}</div>{% endif %}
+                                    {% if ap_step7_note_label or ap_step7_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step7_note_label %}<strong>{{ ap_step7_note_label }}</strong>{% endif %}
+                                            {% if ap_step7_note_text %}{{ ap_step7_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {# Шаг 8 #}
+                            {% set ap_step8_title = function('get_field', 'ap_step8_title') %}
+                            {% set ap_step8_description = function('get_field', 'ap_step8_description') %}
+                            {% set ap_step8_note_label = function('get_field', 'ap_step8_note_label') %}
+                            {% set ap_step8_note_text = function('get_field', 'ap_step8_note_text') %}
+                            {% if ap_step8_title or ap_step8_description or ap_step8_note_text %}
+                                <div class="relative bg-white rounded-xl p-6 shadow-md ml-16">
+                                    <div class="absolute -left-16 top-6 w-12 h-12 bg-gov-blue text-white rounded-full flex items-center justify-center font-bold text-lg">8</div>
+                                    {% if ap_step8_title %}<h3 class="text-xl font-bold mb-3 text-gov-blue">{{ ap_step8_title }}</h3>{% endif %}
+                                    {% if ap_step8_description %}<div class="text-base text-gray-700 mb-3">{{ ap_step8_description|raw }}</div>{% endif %}
+                                    {% if ap_step8_note_label or ap_step8_note_text %}
+                                        <div class="text-sm text-gray-600">
+                                            {% if ap_step8_note_label %}<strong>{{ ap_step8_note_label }}</strong>{% endif %}
+                                            {% if ap_step8_note_text %}{{ ap_step8_note_text|raw }}{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Downloads (НЕ ТРОГАЕМ ЭТОТ БЛОК СЕЙЧАС) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-lg p-8 sticky top-8">
+					
+                        <h3 class="text-2xl font-bold text-gov-blue mb-6">Documente pentru descărcare</h3>
+
+                        <div class="space-y-4">
+                        {% set args = {
+                            'post_type': 'download_document',
+                            'posts_per_page': -1,
+                            'orderby': 'title',
+                            'order': 'ASC'
+                        } %}
+                        {% set download_documents = function('get_posts', args) %}
+
+                        {% if download_documents %}
+                            {% for doc in download_documents %}
+                            {% set file = function('get_field', 'download_file', doc.ID) %}
+                            {% if file and file.url %}
+                                <a href="{{ file.url }}" class="flex items-center space-x-4 p-4 bg-gov-light-blue rounded-lg hover:bg-blue-100 transition-colors" target="_blank">
+                                <div class="w-12 h-12 bg-gov-blue rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-base">{{ doc.post_title }}</div>
+                                    <div class="text-sm text-gray-600">
+                                    {% if file.mime_type %}
+                                        {% set type = file.mime_type|lower %}
+                                        {% if 'wordprocessingml.document' in type %}
+                                        DOCX
+                                        {% elseif 'pdf' in type %}
+                                        PDF
+                                        {% elseif 'image' in type %}
+                                        Image
+                                        {% else %}
+                                        {{ type|split('/')|last|upper }}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% set mb = (file.filesize / 1024 / 1024) %}
+                                    {% if mb >= 0.1 %}
+                                    , {{ mb|number_format(1, '.', '') }} MB
+                                    {% else %}
+                                    , {{ (file.filesize / 1024)|number_format(0, '.', '') }} KB
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                </a>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-gray-600 text-center">Nu există documente disponibile pentru descărcare.</p>
+                        {% endif %}
+                        </div>
+
+                        <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-yellow-600 mt-0.5" fill="currentColor" viewbox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold text-sm text-yellow-800">Atenție!</div>
+                                    <div class="text-sm text-yellow-700">Toate documentele trebuie completate conform instrucțiunilor din Ghidul solicitantului.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

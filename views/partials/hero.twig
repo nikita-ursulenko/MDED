@@ -1,0 +1,66 @@
+{% block content %}
+	<section id="hero" class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+		<div class="absolute inset-0 bg-black/20"></div>
+
+		<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="text-center">
+				<h1 class="text-5xl md:text-6xl font-bold mb-8 leading-tight">
+					{{ hero_title }}
+				</h1>
+
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-16">
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+						<div class="text-5xl font-bold mb-3" id="counter1">{{ counter_1_value }}</div>
+						<div class="text-xl">{{ counter_1_label }}</div>
+					</div>
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+						<div class="text-5xl font-bold mb-3" id="counter2">{{ counter_2_value }}</div>
+						<div class="text-xl">{{ counter_2_label }}</div>
+					</div>
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+						<div class="text-5xl font-bold mb-3" id="counter3">{{ counter_3_value }}</div>
+						<div class="text-xl">{{ counter_3_label }}</div>
+					</div>
+				</div>
+
+				<a href="#procedura" class="bg-white text-blue-700 px-10 py-5 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
+					{{ hero_button_text }}
+				</a>
+			</div>
+		</div>
+	</section>
+	<script>
+		const counters = [
+{
+id: 'counter1',
+value: {{ counter_1_value }}
+}, {
+id: 'counter2',
+value: {{ counter_2_value }}
+}, {
+id: 'counter3',
+value: {{ counter_3_value }}
+},
+];
+
+counters.forEach(({id, value}) => {
+let el = document.getElementById(id);
+if (! el) 
+return;
+
+
+
+let count = 0;
+let step = Math.ceil(value / 100);
+let interval = setInterval(() => {
+count += step;
+if (count >= value) {
+el.textContent = value.toLocaleString();
+clearInterval(interval);
+} else {
+el.textContent = count.toLocaleString();
+}
+}, 20);
+});
+	</script>
+{% endblock %}

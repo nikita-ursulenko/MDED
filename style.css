@@ -1,0 +1,14 @@
+/*
+Theme Name: MDED
+Theme URI: #
+Author: Nikita
+Author URI: mailto:nikita.ursulenco@gmail.com
+Version: 1.0.0
+Description: MDED — современная кастомная тема WordPress, созданная для максимальной гибкости и производительности. Построена на Timber (Twig) для чистого и структурированного кода, Tailwind CSS для быстрой и адаптивной стилизации, а также ACF для расширенного управления контентом и Gutenberg-блоками. Идеально подходит для разработчиков, ценящих чистоту архитектуры и скорость разработки.
+Requires at least: 5.8
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: custom-theme, timber, twig, tailwind-css, acf, gutenberg, responsive, modern, starter-theme, block-editor-patterns
+Text Domain: mded-theme
+*/

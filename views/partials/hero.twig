@@ -1,23 +1,33 @@
 {% block content %}
-	<section id="hero" class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-		<div class="absolute inset-0 bg-black/20"></div>
+	<section id="hero" class="relative text-white py-20 overflow-hidden ">
+		<div class="absolute inset-0 z-0">
+			<div
+				class="slideshow-container w-full h-full">
+				{# Цикл для вывода слайдов из ACF, переданных из PHP #}
+				{% for slide in slides %}
+					{% set slide_image = Image(slide.slide_image) %}
+					<img src="{{ slide_image.src }}" class="slideshow-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out" alt="Слайд">
+				{% endfor %}
+			</div>
+		</div>
 
-		<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+		<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 ">
 			<div class="text-center">
-				<h1 class="text-5xl md:text-6xl font-bold mb-8 leading-tight">
+				<h1 class="text-5xl md:text-6xl font-bold mb-8 leading-tight text-shadow">
 					{{ hero_title }}
 				</h1>
 
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-16">
-					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+				<div class="flex flex-wrap justify-center gap-8 my-16 text-shadow" id="counters-container">
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8 w-full md:w-auto md:max-w-xs" id="counter1-block">
 						<div class="text-5xl font-bold mb-3" id="counter1">{{ counter_1_value }}</div>
 						<div class="text-xl">{{ counter_1_label }}</div>
 					</div>
-					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8 w-full md:w-auto md:mt-0" id="counter2-block">
 						<div class="text-5xl font-bold mb-3" id="counter2">{{ counter_2_value }}</div>
 						<div class="text-xl">{{ counter_2_label }}</div>
 					</div>
-					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+					<div class="bg-white/10 backdrop-blur-sm rounded-lg p-8 w-full md:w-auto md:max-w-xs" id="counter3-block">
 						<div class="text-5xl font-bold mb-3" id="counter3">{{ counter_3_value }}</div>
 						<div class="text-xl">{{ counter_3_label }}</div>
 					</div>
@@ -61,6 +71,76 @@ clearInterval(interval);
 el.textContent = count.toLocaleString();
 }
 }, 20);
+});
+
+// --- Логика для перемещения блока при переносе ---
+document.addEventListener('DOMContentLoaded', function () {
+const countersContainer = document.getElementById('counters-container');
+const counter1Block = document.getElementById('counter1-block');
+const counter2Block = document.getElementById('counter2-block');
+const counter3Block = document.getElementById('counter3-block');
+
+if (! countersContainer || ! counter1Block || ! counter2Block || ! counter3Block) {
+console.warn('One or more counter blocks or container not found.');
+return;
+}
+
+// Исходный порядок блоков для восстановления
+const initialOrder = [counter1Block, counter2Block, counter3Block];
+let isWrapped = false; // Флаг для отслеживания состояния переноса
+
+const observeWrap = new ResizeObserver(entries => {
+for (let entry of entries) {
+if (entry.target === countersContainer) {
+// Получаем текущее количество элементов в первой строке
+// Это делается путем сравнения вертикального положения элементов
+const firstChildTop = counter1Block.offsetTop;
+const hasWrapped = (counter2Block.offsetTop > firstChildTop) || (counter3Block.offsetTop > firstChildTop);
+
+if (hasWrapped && ! isWrapped) { // Если произошло перенос и это первый раз
+countersContainer.appendChild(counter2Block);
+isWrapped = true;
+console.log('Blocks wrapped, moving counter2 to end.');
+} else if (! hasWrapped && isWrapped) {
+// Если блоки вернулись на одну строку
+// Восстанавливаем исходный порядок
+countersContainer.innerHTML = ''; // Очищаем, чтобы добавить в правильном порядке
+initialOrder.forEach(block => countersContainer.appendChild(block));
+isWrapped = false;
+console.log('Blocks unwrapped, restoring original order.');
+}
+}
+}
+});
+
+// Начинаем наблюдение за контейнером
+observeWrap.observe(countersContainer);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+const images = document.querySelectorAll('.slideshow-image');
+let currentImageIndex = 0;
+
+if (images.length === 0) {
+console.warn('No slideshow images found.');
+return;
+}
+
+// Показываем первое изображение
+images[currentImageIndex].classList.add('opacity-100');
+
+function changeSlide() { // Скрываем текущее изображение, убирая класс opacity-100
+images[currentImageIndex].classList.remove('opacity-100');
+
+// Переходим к следующему изображению
+currentImageIndex = (currentImageIndex + 1) % images.length;
+
+// Показываем следующее изображение, добавляя класс opacity-100
+images[currentImageIndex].classList.add('opacity-100');
+}
+
+// Запускаем смену слайдов каждые 5 секунд
+setInterval(changeSlide, 5000);
 });
 	</script>
 {% endblock %}

@@ -114,6 +114,49 @@ require_once get_template_directory() . '/admin/inc/post-types/success-story.php
 // Include ACF Styles for Success Story
 // Подключаем стили ACF, которые относятся к "Историям успеха".
 require_once get_template_directory() . '/admin/acf-succes.php';
+/**
+ * Обрабатывает шорткоды, извлекает URL первого изображения и удаляет суффикс размера.
+ *
+ * @param string $html_content HTML-содержимое с шорткодами.
+ * @return string|false URL изображения в полном размере или false.
+ */
+function get_first_image_from_rendered_content($html_content) {
+    if (empty($html_content)) {
+        return false;
+    }
+
+    // Обрабатываем шорткоды в содержимом
+    $rendered_content = do_shortcode($html_content);
+
+    // Используем DOMDocument для надежного поиска первого тега <img>
+    $dom = new DOMDocument();
+    @$dom->loadHTML('<?xml encoding="utf-8" ?>' . $rendered_content);
+    $images = $dom->getElementsByTagName('img');
+
+    if ($images->length > 0) {
+        $first_image = $images->item(0);
+        $src = $first_image->getAttribute('src');
+
+        // --- Вот здесь мы удаляем суффикс размера ---
+        $src_full = preg_replace('/-\d+x\d+\./', '.', $src);
+
+        return $src_full;
+    }
+
+    return false;
+}
+/**
+ * Выводит данные в консоль браузера.
+ *
+ * @param mixed $data Данные для вывода.
+ * @param string $label Метка для идентификации вывода.
+ */
+function log_to_console($data, $label = 'PHP Debug') {
+    echo '<script>';
+    echo 'console.log("' . $label . ':", ' . json_encode($data) . ');';
+    echo '</script>';
+}
+
 
 require_once get_template_directory() . '/admin/inc/post-types/downloadable-document.php';
 
@@ -128,3 +171,7 @@ require_once get_template_directory() . '/admin/acf-beneficiari-manual.php';
 require_once get_template_directory() . '/admin/acf-criterii-manual.php';
 
 require_once get_template_directory() . '/admin/acf-procedura-manual.php';
+
+require_once get_template_directory() . '/admin/acf-instrumente-manual.php';
+
+require_once get_template_directory() . '/admin/acf-footer-manual.php';

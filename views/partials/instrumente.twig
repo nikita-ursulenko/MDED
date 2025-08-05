@@ -1,364 +1,361 @@
-    <style>
-        :root {
-            --background: #f8fafc;
-            --text-primary: #1e3a5f;
-            --text-secondary: #64748b;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-teal: #14b8a6;
-            --shadow: rgba(0, 0, 0, 0.05);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        
-        .investment-tools {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-        
-        .section-header {
-            margin-bottom: 3rem;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .section-description {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            animation: fadeIn 0.8s ease-out 0.2s forwards;
-        }
-        
-        .cards-container {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin-top: 2rem;
-        }
-        
-        .card {
-            flex: 1;
-            max-width: 500px;
-            height: auto;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px var(--shadow);
-            padding: 2.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 
-        }
-        
-        .card:nth-child(1) {
-            background-color: rgba(16, 185, 129, 0.08);
-            border: 2px solid rgba(16, 185, 129, 0.2);
-            animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .card:nth-child(2) {
-            background-color: rgba(59, 130, 246, 0.08);
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            animation: fadeSlideUp 0.8s ease-out 0.6s forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-        }
-        
-        .card-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1.75rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        
-        .card:nth-child(1) .card-title {
-            color: var(--accent-green);
-        }
-        
-        .card:nth-child(2) .card-title {
-            color: var(--accent-blue);
-        }
-        
-        .card-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            border-radius: 3px;
-        }
-        
-        .card:nth-child(1) .card-title::after {
-            background-color: var(--accent-green);
-        }
-        
-        .card:nth-child(2) .card-title::after {
-            background-color: var(--accent-blue);
-        }
-        
-        .list-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.25rem;
-        }
-        
-        .list-icon {
-            flex-shrink: 0;
-            margin-right: 1rem;
-            margin-top: 0.25rem;
-        }
-        
-        .list-text {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-        }
-        
-        .highlight {
-            font-weight: 600;
-        }
-        
-        .card:nth-child(1) .highlight {
-            color: var(--accent-green);
-        }
-        
-        .card:nth-child(2) .highlight {
-            color: var(--accent-blue);
-        }
-        
-        .action-link {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 1.5rem;
-            padding: 0.75rem 1.5rem;
-            background-color: transparent;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card:nth-child(1) .action-link {
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-        }
-        
-        .card:nth-child(2) .action-link {
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        
-        .action-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            transition: all 0.3s ease;
-            z-index: -1;
-        }
-        
-        .card:nth-child(1) .action-link::before {
-            background-color: var(--accent-green);
-        }
-        
-        .card:nth-child(2) .action-link::before {
-            background-color: var(--accent-blue);
-        }
-        
-        .action-link:hover {
-            color: white;
-        }
-        
-        .action-link:hover::before {
-            left: 0;
-        }
-        
-        .action-link svg {
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .action-link:hover svg {
-            transform: translateX(4px);
-        }
-        
-        .action-link:hover svg path {
-            stroke: white;
-        }
-        
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @media (max-width: 900px) {
-            .cards-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .card {
-                width: 100%;
-                max-width: 100%;
-                aspect-ratio: auto;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .investment-tools {
-                padding: 3rem 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 1.75rem;
-            }
-            
-            .card {
-                padding: 1.75rem;
-            }
-        }
-    </style>
-    <section 
-    id="investmente"
-    class="investment-tools">
-        <div class="container">
-            <header class="section-header">
-                <h2 class="section-title">Alte instrumente care îți pot susține investiția</h2>
-            </header>
-            
-            <p class="section-description">
-                Pe lângă sprijinul acordat direct prin programul „Ajutor de Stat", investitorii pot accesa și alte mecanisme disponibile prin intermediul Organizației pentru Dezvoltarea Antreprenoriatului (ODA), pentru a facilita finanțarea completă a proiectelor.
-            </p>
-            
-            <div class="cards-container">
-                <!-- Prima Cartelă -->
-                <div class="card">
-                    
-                    <div>
-                        <h3 class="card-title">Vrei să-ți subvenționezi dobânda?</h3>
-                        
-                        <div class="list-item">
-                            <div class="list-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="10" cy="10" r="9" stroke="#10b981" stroke-width="1.5"/>
-                                    <path d="M7 10H13" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M11 8L13 10L11 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <p class="list-text">
-                                Aplică la Programul 373
-                            </p>
-                        </div>
-                        
-                        <div class="list-item">
-                            <div class="list-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.6667 5L7.50002 14.1667L3.33335 10" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <p class="list-text">
-                                Statul acoperă până la <span class="highlight">10%</span> din dobândă
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <a href="#" class="action-link">
-                        Află mai multe
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.33331 8H12.6666" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
-                
-                <!-- A Doua Cartelă -->
-                <div class="card">
-                    <div>
-                        <h3 class="card-title">Nu ai gaj pentru credit?</h3>
-                        
-                        <div class="list-item">
-                            <div class="list-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/>
-                                    <path d="M7 10H13" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M11 8L13 10L11 12" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <p class="list-text">
-                                Aplică la Fondul de Garantare a Creditelor
-                            </p>
-                        </div>
-                        
-                        <div class="list-item">
-                            <div class="list-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.6667 5L7.50002 14.1667L3.33335 10" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <p class="list-text">
-                                ODA poate garanta până la <span class="highlight">80%</span> din valoarea împrumutului
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <a href="#" class="action-link">
-                        Detalii complete
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.33331 8H12.6666" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<style>:root
+{
+	--background: #f8fafc;
+	--text-primary: #1e3a5f;
+	--text-secondary: #64748b;
+	--accent-blue: #3b82f6;
+	--accent-green: #10b981;
+	--accent-teal: #14b8a6;
+	--shadow: rgba(0, 0, 0, 0.05);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+.investment-tools {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 5rem 2rem;
+}
+
+.section-header {
+	margin-bottom: 3rem;
+	text-align: center;
+	animation: fadeIn 0.8s ease-out forwards;
+}
+
+.section-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: var(--text-primary);
+	margin-bottom: 1.5rem;
+	letter-spacing: -0.02em;
+}
+
+.section-description {
+	font-size: 1.125rem;
+	color: var(--text-secondary);
+	max-width: 800px;
+	margin: 0 auto 3rem;
+	animation: fadeIn 0.8s ease-out 0.2s forwards;
+}
+
+.cards-container {
+	display: flex;
+	justify-content: center;
+	gap: 2.5rem;
+	margin-top: 2rem;
+}
+
+.card {
+	flex: 1;
+	max-width: 500px;
+	height: auto;
+	background-color: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 10px 25px var(--shadow);
+	padding: 2.5rem;
+	transition: all 0.4s ease;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: }
+
+.card:nth-child(1) {
+	background-color: rgba(16, 185, 129, 0.08);
+	border: 2px solid rgba(16, 185, 129, 0.2);
+	animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.card:nth-child(2) {
+	background-color: rgba(59, 130, 246, 0.08);
+	border: 2px solid rgba(59, 130, 246, 0.2);
+	animation: fadeSlideUp 0.8s ease-out 0.6s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.card:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+	font-size: 1.75rem;
+	font-weight: 700;
+	margin-bottom: 1.75rem;
+	position: relative;
+	padding-bottom: 0.75rem;
+}
+
+.card:nth-child(1) .card-title {
+	color: var(--accent-green);
+}
+
+.card:nth-child(2) .card-title {
+	color: var(--accent-blue);
+}
+
+.card-title::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 60px;
+	height: 3px;
+	border-radius: 3px;
+}
+
+.card:nth-child(1) .card-title::after {
+	background-color: var(--accent-green);
+}
+
+.card:nth-child(2) .card-title::after {
+	background-color: var(--accent-blue);
+}
+
+.list-item {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 1.25rem;
+}
+
+.list-icon {
+	flex-shrink: 0;
+	margin-right: 1rem;
+	margin-top: 0.25rem;
+}
+
+.list-text {
+	color: var(--text-secondary);
+	font-size: 1.05rem;
+}
+
+.highlight {
+	font-weight: 600;
+}
+
+.card:nth-child(1) .highlight {
+	color: var(--accent-green);
+}
+
+.card:nth-child(2) .highlight {
+	color: var(--accent-blue);
+}
+
+.action-link {
+	display: inline-flex;
+	align-items: center;
+	margin-top: 1.5rem;
+	padding: 0.75rem 1.5rem;
+	background-color: transparent;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.card:nth-child(1) .action-link {
+	border: 1px solid var(--accent-green);
+	color: var(--accent-green);
+}
+
+.card:nth-child(2) .action-link {
+	border: 1px solid var(--accent-blue);
+	color: var(--accent-blue);
+}
+
+.action-link::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	transition: all 0.3s ease;
+	z-index: -1;
+}
+
+.card:nth-child(1) .action-link::before {
+	background-color: var(--accent-green);
+}
+
+.card:nth-child(2) .action-link::before {
+	background-color: var(--accent-blue);
+}
+
+.action-link:hover {
+	color: white;
+}
+
+.action-link:hover::before {
+	left: 0;
+}
+
+.action-link svg {
+	margin-left: 0.5rem;
+	transition: transform 0.3s ease;
+}
+
+.action-link:hover svg {
+	transform: translateX(4px);
+}
+
+.action-link:hover svg path {
+	stroke: white;
+}
+
+@keyframes fadeSlideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media(max-width: 900px) {
+	.cards-container {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.card {
+		width: 100%;
+		max-width: 100%;
+		aspect-ratio: auto;
+	}
+
+	.section-title {
+		font-size: 2rem;
+	}
+}
+
+@media(max-width: 600px) {
+	.investment-tools {
+		padding: 3rem 1.5rem;
+	}
+
+	.section-title {
+		font-size: 1.75rem;
+	}
+
+	.card {
+		padding: 1.75rem;
+	}
+}</style><section id="investmente" class="investment-tools flex justify-center ">
+<div class="container">
+	<h2 class="section-title section-header">Alte instrumente care îți pot susține investiția</h2>
+
+	<p class="section-description">
+		Pe lângă sprijinul acordat direct prin programul „Ajutor de Stat", investitorii pot accesa și alte mecanisme disponibile prin intermediul Organizației pentru Dezvoltarea Antreprenoriatului (ODA), pentru a facilita finanțarea completă a proiectelor.
+	</p>
+
+	<div
+		class="cards-container">
+		{# Prima Cartelă #}
+		<div class="card">
+
+			<div>
+				<h3 class="card-title">Vrei să-ți subvenționezi dobânda?</h3>
+
+				<div class="list-item">
+					<div class="list-icon">
+						<svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<circle cx="10" cy="10" r="9" stroke="#10b981" stroke-width="1.5"/>
+							<path d="M7 10H13" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+							<path d="M11 8L13 10L11 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<p class="list-text">
+						Aplică la Programul 373
+					</p>
+				</div>
+
+				<div class="list-item">
+					<div class="list-icon">
+						<svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M16.6667 5L7.50002 14.1667L3.33335 10" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<p class="list-text">
+						Statul acoperă până la
+						<span class="highlight">10%</span>
+						din dobândă
+					</p>
+				</div>
+			</div>
+
+			<a href="{{ fn('get_field', 'card_1_button_link')['url'] }}" class="action-link" target="{{ fn('get_field', 'card_1_button_link')['target'] }}">
+				{{ fn('get_field', 'card_1_button_text') }}
+				<svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M3.33331 8H12.6666" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+		</div>
+
+		{# A Doua Cartelă #}
+		<div class="card">
+			<div>
+				<h3 class="card-title">Nu ai gaj pentru credit?</h3>
+
+				<div class="list-item">
+					<div class="list-icon">
+						<svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/>
+							<path d="M7 10H13" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
+							<path d="M11 8L13 10L11 12" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<p class="list-text">
+						Aplică la Fondul de Garantare a Creditelor
+					</p>
+				</div>
+
+				<div class="list-item">
+					<div class="list-icon">
+						<svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M16.6667 5L7.50002 14.1667L3.33335 10" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<p class="list-text">
+						ODA poate garanta până la
+						<span class="highlight">80%</span>
+						din valoarea împrumutului
+					</p>
+				</div>
+			</div>
+
+			<a href="{{ fn('get_field', 'card_2_button_link')['url'] }}" class="action-link" target="{{ fn('get_field', 'card_2_button_link')['target'] }}">
+				{{ fn('get_field', 'card_2_button_text') }}
+				<svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M3.33331 8H12.6666" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</div></section>

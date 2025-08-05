@@ -1,5 +1,11 @@
 @import "tailwindcss";
-
+html {
+    font-family: "Times New Roman", Times, serif;
+}
+/* styles.css */
+.text-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
 @theme {
     /* Цвета */
     --color-gov-blue: #1e40af;

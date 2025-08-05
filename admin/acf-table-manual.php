@@ -1,137 +1,144 @@
 <?php
 /**
- * Регистрация всех ACF полей для таблицы грантов вручную (для БЕСПЛАТНОЙ версии ACF).
- * Использует отдельные поля для каждой строки, так как Repeater Field требует ACF PRO.
+ * Înregistrarea manuală a tuturor câmpurilor ACF pentru tabelul de granturi (pentru versiunea GRATUITĂ a ACF).
+ * Utilizează câmpuri separate pentru fiecare rând, deoarece Repeater Field necesită ACF PRO.
  *
- * Убедитесь, что плагин Advanced Custom Fields активен.
+ * Asigurați-vă că pluginul Advanced Custom Fields este activ.
  */
 if( function_exists('acf_add_local_field_group') ):
 
 acf_add_local_field_group(array(
-    'key' => 'group_company_grants_table_free', // Новый уникальный ключ для группы полей
-    'title' => 'Настройки таблицы грантов', // Название группы полей в админке WP
+    'key' => 'group_company_grants_table_free', // Cheie unică nouă pentru grupul de câmpuri
+    'title' => 'Setări tabel granturi', // Titlul grupului de câmpuri în panoul de administrare WP
     'fields' => array(
-        // --- 1. Поле: Заголовок таблицы ---
+        // --- 1. Câmp: Titlul tabelului ---
         array(
-            'key' => 'field_table_main_title_free', // Уникальный ключ
-            'label' => 'Заголовок таблицы',
+            'key' => 'field_table_main_title_free', // Cheie unică
+            'label' => 'Titlul tabelului',
             'name' => 'table_main_title',
             'type' => 'text',
-            'instructions' => 'Введите заголовок, который будет отображаться над таблицей.',
+            'instructions' => 'Introduceți titlul care va fi afișat deasupra tabelului.',
             'required' => 0,
+            'default_value' => 'Condiții de finanțare pe tipuri de întreprinderi', // Adăugat: Valoare implicită
             'wrapper' => array('width' => '', 'class' => '', 'id' => ''),
-            'placeholder' => 'Например: Условия финансирования по типам предприятий',
+            'placeholder' => 'Exemplu: Condiții de finanțare pe tipuri de întreprinderi',
         ),
 
-        // --- Разделитель для удобства в админке ---
+        // --- Separator pentru comoditate în panoul de administrare ---
         array(
             'key' => 'field_heading_small_enterprise',
-            'label' => 'Данные для "Întreprindere mică"',
-            'name' => '', // Имя не требуется для поля типа "Message"
+            'label' => 'Date pentru "Întreprindere mică"',
+            'name' => '', // Numele nu este necesar pentru câmpul de tip "Message"
             'type' => 'message',
-            'message' => 'Внесите данные для строки "Întreprindere mică".',
+            'message' => 'Introduceți datele pentru rândul "Întreprindere mică".',
             'new_lines' => 'wpautop',
             'esc_html' => 0,
             'wrapper' => array('width' => '', 'class' => '', 'id' => ''),
         ),
-        // --- 3. Поля для строки "Întreprindere mică" ---
+        // --- 3. Câmpuri pentru rândul "Întreprindere mică" ---
         array(
-            'key' => 'field_small_enterprise_most_districts', // Уникальный ключ
+            'key' => 'field_small_enterprise_most_districts', // Cheie unică
             'label' => 'Întreprindere mică: Majoritatea raioanelor (%)',
             'name' => 'small_enterprise_most_districts',
             'type' => 'text',
-            'instructions' => 'Процент для малых предприятий в большинстве районов.',
+            'instructions' => 'Procentul pentru întreprinderile mici în majoritatea raioanelor.',
             'required' => 1,
-            'wrapper' => array('width' => '50', 'class' => '', 'id' => ''), // 50% ширина
-            'placeholder' => 'Например: 75%',
+            'default_value' => '75%', // Adăugat: Valoare implicită
+            'wrapper' => array('width' => '50', 'class' => '', 'id' => ''), // 50% lățime
+            'placeholder' => 'Exemplu: 75%',
         ),
         array(
-            'key' => 'field_small_enterprise_chisinau', // Уникальный ключ
+            'key' => 'field_small_enterprise_chisinau', // Cheie unică
             'label' => 'Întreprindere mică: Municipiul Chișinău (%)',
             'name' => 'small_enterprise_chisinau',
             'type' => 'text',
-            'instructions' => 'Процент для малых предприятий в Кишинёве.',
+            'instructions' => 'Procentul pentru întreprinderile mici în Chișinău.',
             'required' => 1,
-            'wrapper' => array('width' => '50', 'class' => '', 'id' => ''), // 50% ширина
-            'placeholder' => 'Например: 60%',
+            'default_value' => '60%', // Adăugat: Valoare implicită
+            'wrapper' => array('width' => '50', 'class' => '', 'id' => ''), // 50% lățime
+            'placeholder' => 'Exemplu: 60%',
         ),
 
-        // --- Разделитель для удобства в админке ---
+        // --- Separator pentru comoditate în panoul de administrare ---
         array(
             'key' => 'field_heading_medium_enterprise',
-            'label' => 'Данные для "Întreprindere mijlocie"',
+            'label' => 'Date pentru "Întreprindere mijlocie"',
             'name' => '',
             'type' => 'message',
-            'message' => 'Внесите данные для строки "Întreprindere mijlocie".',
+            'message' => 'Introduceți datele pentru rândul "Întreprindere mijlocie".',
             'new_lines' => 'wpautop',
             'esc_html' => 0,
             'wrapper' => array('width' => '', 'class' => '', 'id' => ''),
         ),
-        // --- 4. Поля для строки "Întreprindere mijlocie" ---
+        // --- 4. Câmpuri pentru rândul "Întreprindere mijlocie" ---
         array(
-            'key' => 'field_medium_enterprise_most_districts', // Уникальный ключ
+            'key' => 'field_medium_enterprise_most_districts', // Cheie unică
             'label' => 'Întreprindere mijlocie: Majoritatea raioanelor (%)',
             'name' => 'medium_enterprise_most_districts',
             'type' => 'text',
-            'instructions' => 'Процент для средних предприятий в большинстве районов.',
+            'instructions' => 'Procentul pentru întreprinderile medii în majoritatea raioanelor.',
             'required' => 1,
+            'default_value' => '60%', // Adăugat: Valoare implicită
             'wrapper' => array('width' => '50', 'class' => '', 'id' => ''),
-            'placeholder' => 'Например: 60%',
+            'placeholder' => 'Exemplu: 60%',
         ),
         array(
-            'key' => 'field_medium_enterprise_chisinau', // Уникальный ключ
+            'key' => 'field_medium_enterprise_chisinau', // Cheie unică
             'label' => 'Întreprindere mijlocie: Municipiul Chișinău (%)',
             'name' => 'medium_enterprise_chisinau',
             'type' => 'text',
-            'instructions' => 'Процент для средних предприятий в Кишинёве.',
+            'instructions' => 'Procentul pentru întreprinderile medii în Chișinău.',
             'required' => 1,
+            'default_value' => '50%', // Adăugat: Valoare implicită
             'wrapper' => array('width' => '50', 'class' => '', 'id' => ''),
-            'placeholder' => 'Например: 50%',
+            'placeholder' => 'Exemplu: 50%',
         ),
 
-        // --- Разделитель для удобства в админке ---
+        // --- Separator pentru comoditate în panoul de administrare ---
         array(
             'key' => 'field_heading_large_enterprise',
-            'label' => 'Данные для "Întreprindere mare"',
+            'label' => 'Date pentru "Întreprindere mare"',
             'name' => '',
             'type' => 'message',
-            'message' => 'Внесите данные для строки "Întreprindere mare".',
+            'message' => 'Introduceți datele pentru rândul "Întreprindere mare".',
             'new_lines' => 'wpautop',
             'esc_html' => 0,
             'wrapper' => array('width' => '', 'class' => '', 'id' => ''),
         ),
-        // --- 5. Поля для строки "Întreprindere mare" ---
+        // --- 5. Câmpuri pentru rândul "Întreprindere mare" ---
         array(
-            'key' => 'field_large_enterprise_most_districts', // Уникальный ключ
+            'key' => 'field_large_enterprise_most_districts', // Cheie unică
             'label' => 'Întreprindere mare: Majoritatea raioanelor (%)',
             'name' => 'large_enterprise_most_districts',
             'type' => 'text',
-            'instructions' => 'Процент для крупных предприятий в большинстве районов.',
+            'instructions' => 'Procentul pentru întreprinderile mari în majoritatea raioanelor.',
             'required' => 1,
+            'default_value' => '60%', // Adăugat: Valoare implicită
             'wrapper' => array('width' => '50', 'class' => '', 'id' => ''),
-            'placeholder' => 'Например: 60%',
+            'placeholder' => 'Exemplu: 60%',
         ),
         array(
-            'key' => 'field_large_enterprise_chisinau', // Уникальный ключ
+            'key' => 'field_large_enterprise_chisinau', // Cheie unică
             'label' => 'Întreprindere mare: Municipiul Chișinău (%)',
             'name' => 'large_enterprise_chisinau',
             'type' => 'text',
-            'instructions' => 'Процент для крупных предприятий в Кишинёве.',
+            'instructions' => 'Procentul pentru întreprinderile mari în Chișinău.',
             'required' => 1,
+            'default_value' => '50%', // Adăugat: Valoare implicită
             'wrapper' => array('width' => '50', 'class' => '', 'id' => ''),
-            'placeholder' => 'Например: 50%',
+            'placeholder' => 'Exemplu: 50%',
         ),
     ),
-    'location' => array( // Правила размещения: где будет отображаться эта группа полей
+    'location' => array( // Reguli de locație: unde va fi afișat acest grup de câmpuri
         array(
             array(
                 'param' => 'post_type',
                 'operator' => '==',
-                'value' => 'page', // Показать на всех страницах. Настройте это!
+                'value' => 'page', // Afișează pe toate paginile. Personalizați acest lucru!
             ),
         ),
-        // === ВАЖНО ===
-        // Убедитесь, что здесь установлены нужные вам правила!
+        // === IMPORTANT ===
+        // Asigurați-vă că regulile dorite sunt setate aici!
     ),
     'menu_order' => 0,
     'position' => 'normal',
@@ -140,7 +147,7 @@ acf_add_local_field_group(array(
     'instruction_placement' => 'label',
     'hide_on_screen' => '',
     'active' => true,
-    'description' => 'Эта группа полей содержит данные для динамической таблицы грантов.',
+    'description' => 'Acest grup de câmpuri conține date pentru tabelul dinamic de granturi.',
 ));
 
 endif;

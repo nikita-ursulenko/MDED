@@ -1,81 +1,128 @@
-<!-- Footer -->
-<footer id="contact" class="bg-gov-dark-blue text-white py-16">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div
-			class="grid grid-cols-1 md:grid-cols-4 gap-8">
-			<!-- Column 1: Logo and Contact -->
-			<div>
-				<div
-					class="flex items-center space-x-3 mb-6">
-					<!-- Logo svg -->
-
-
-					<img src="{{ logo_url }}" alt="Logo" class="h-12 w-12 md:h-16 md:w-16 logo-white">
-
-					<div>
-						<div class="font-bold text-lg">Guvernul Republicii Moldova</div>
-						<div class="text-sm text-blue-200">Moldova Poate</div>
+{% block content %}
+	<!-- Footer -->
+	<footer id="contact" class="bg-gov-dark-blue text-white py-16">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div
+				class="grid grid-cols-1 md:grid-cols-4 gap-8">
+				<!-- Column 1: Logo and Contact -->
+				<div>
+					<div
+						class="flex items-center space-x-3 mb-6">
+						<!-- Logo svg -->
+						<div>
+							{% if fields.column_1_main_title %}
+								<div class="font-bold text-lg">{{ fields.column_1_main_title }}</div>
+							{% endif %}
+						</div>
+					</div>
+					{% if fields.column_1_title %}
+						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_1_title }}</h3>
+					{% endif %}
+					<div class="space-y-3 text-base text-blue-200">
+						{% if fields.footer_address_text and fields.footer_address_url %}
+							<p>📍
+								<a href="{{ fields.footer_address_url }}" class="hover:underline">
+									{{ fields.footer_address_text }}</a>
+							</p>
+						{% endif %}
+						{% if fields.footer_phone_text and fields.footer_phone_url %}
+							<p>📞
+								<a href="{{ fields.footer_phone_url }}" class="hover:underline">{{ fields.footer_phone_text }}</a>
+							</p>
+						{% endif %}
+						{% if fields.footer_email_text and fields.footer_email_url %}
+							<p>✉️
+								<a href="{{ fields.footer_email_url }}" class="hover:underline">{{ fields.footer_email_text }}</a>
+							</p>
+						{% endif %}
 					</div>
 				</div>
-				<h3 class="font-semibold mb-4 text-lg">Ministerul Dezvoltării Economice și Digitalizării</h3>
-				<div class="space-y-3 text-base text-blue-200">
-					<p>📍 <a href="https://maps.app.goo.gl/7TyXM8mixuPyUkJe6" class="hover:underline"> Piața Marii Adunări Naționale 1, Chișinău</a></p>
-					<p>📞 <a href="tel:+37322250360" class="hover:underline">+373 22 250 360</a></p>
-					<p>✉️ <a href="mailto:office@mded.gov.md" class="hover:underline">office@mded.gov.md</a></p>
+
+				<!-- Column 2: Partners -->
+				<div>
+					{% if fields.column_2_title %}
+						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_2_title }}</h3>
+					{% endif %}
+					<ul class="space-y-2 text-base text-blue-200">
+						{% if fields.footer_partner_1 %}
+							<li>{{ fields.footer_partner_1 }}</li>
+						{% endif %}
+						{% if fields.footer_partner_2 %}
+							<li>{{ fields.footer_partner_2 }}</li>
+						{% endif %}
+						{% if fields.footer_partner_3 %}
+							<li>{{ fields.footer_partner_3 }}</li>
+						{% endif %}
+						{% if fields.footer_partner_4 %}
+							<li>{{ fields.footer_partner_4 }}</li>
+						{% endif %}
+						{% if fields.footer_partner_5 %}
+							<li>{{ fields.footer_partner_5 }}</li>
+						{% endif %}
+						{% if fields.footer_partner_6 %}
+							<li>{{ fields.footer_partner_6 }}</li>
+						{% endif %}
+					</ul>
 				</div>
-			</div>
 
-			<!-- Column 2: Partners -->
-			<div>
-				<h3 class="font-semibold mb-4 text-lg">Parteneri</h3>
-				<ul class="space-y-2 text-base text-blue-200">
-					<li>Agenția de Investiții</li>
-					<li>Camera de Comerț</li>
-					<li>ODIMM</li>
-					<li>FIA</li>
-					<li>USAID</li>
-					<li>Banca Mondială</li>
-				</ul>
-			</div>
+				<!-- Column 3: E-Government Sites -->
+				<div>
+					{% if fields.column_3_title %}
+						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_3_title }}</h3>
+					{% endif %}
+					<ul class="space-y-2 text-base text-blue-200">
+						{% if fields.egov_site_1_name and fields.egov_site_1_url %}
+							<li>
+								<a href="{{ fields.egov_site_1_url }}" class="hover:text-white transition-colors">{{ fields.egov_site_1_name }}</a>
+							</li>
+						{% endif %}
+						{% if fields.egov_site_2_name and fields.egov_site_2_url %}
+							<li>
+								<a href="{{ fields.egov_site_2_url }}" class="hover:text-white transition-colors">{{ fields.egov_site_2_name }}</a>
+							</li>
+						{% endif %}
+						{% if fields.egov_site_3_name and fields.egov_site_3_url %}
+							<li>
+								<a href="{{ fields.egov_site_3_url }}" class="hover:text-white transition-colors">{{ fields.egov_site_3_name }}</a>
+							</li>
+						{% endif %}
+						{% if fields.egov_site_4_name and fields.egov_site_4_url %}
+							<li>
+								<a href="{{ fields.egov_site_4_url }}" class="hover:text-white transition-colors">{{ fields.egov_site_4_name }}</a>
+							</li>
+						{% endif %}
+						{% if fields.egov_site_5_name and fields.egov_site_5_url %}
+							<li>
+								<a href="{{ fields.egov_site_5_url }}" class="hover:text-white transition-colors">{{ fields.egov_site_5_name }}</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
 
-			<!-- Column 3: E-Government Sites -->
-			<div>
-				<h3 class="font-semibold mb-4 text-lg">Site-uri E-Government</h3>
-				<ul class="space-y-2 text-base text-blue-200">
-					<li>
-						<a href="https://gov.md" class="hover:text-white transition-colors">gov.md</a>
-					</li>
-					<li>
-						<a href="https://servicii.gov.md" class="hover:text-white transition-colors">servicii.gov.md</a>
-					</li>
-					<li>
-						<a href="https://date.gov.md" class="hover:text-white transition-colors">date.gov.md</a>
-					</li>
-					<li>
-						<a href="https://particip.gov.md" class="hover:text-white transition-colors">particip.gov.md</a>
-					</li>
-					<li>
-						<a href="https://cancelaria.gov.md" class="hover:text-white transition-colors">cancelaria.gov.md</a>
-					</li>
-				</ul>
-			</div>
-
-			<!-- Column 4: Copyright -->
-			<div>
-				<h3 class="font-semibold mb-4 text-lg">Informații legale</h3>
-				<div class="text-base text-blue-200 space-y-3">
-					<p>© 2025 Guvernul Republicii Moldova</p>
-					<p>Toate drepturile rezervate</p>
-					<div class="pt-4 space-y-2">
-						<div>
-							<a href="#" class="hover:text-white transition-colors">Politica de confidențialitate</a>
-						</div>
-						<div>
-							<a href="#" class="hover:text-white transition-colors">Termeni și condiții</a>
+				<!-- Column 4: Copyright -->
+				<div>
+					{% if fields.column_4_title %}
+						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_4_title }}</h3>
+					{% endif %}
+					<div class="text-base text-blue-200 space-y-3">
+						{% if fields.footer_copyright_text %}
+							<p>{{ fields.footer_copyright_text }}</p>
+						{% endif %}
+						<div class="pt-4 space-y-2">
+							{% if fields.footer_privacy_text and fields.footer_privacy_url %}
+								<div>
+									<a href="{{ fields.footer_privacy_url }}" class="hover:text-white transition-colors">{{ fields.footer_privacy_text }}</a>
+								</div>
+							{% endif %}
+							{% if fields.footer_terms_text and fields.footer_terms_url %}
+								<div>
+									<a href="{{ fields.footer_terms_url }}" class="hover:text-white transition-colors">{{ fields.footer_terms_text }}</a>
+								</div>
+							{% endif %}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</footer>
+	</footer>
+{% endblock %}

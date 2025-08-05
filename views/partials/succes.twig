@@ -11,12 +11,15 @@
 		{% if success_stories is empty %}
 			<p class="text-center text-gray-500">Nu există istorii de succes.</p>
 		{% else %}
-			<div class="swiper-container overflow-hidden p-[10px] relative">
-				<div class="swiper-wrapper py-5 flex items-stretch">
-					{% for story in success_stories %}
+			<div class="relative">
+				<div class="swiper-button-prev absolute z-10 left-0 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center cursor-pointer transition-colors duration-200 "></div>
+
+				<div class="swiper-container overflow-hidden p-[10px] relative w-[90%] mx-auto">
+					<div class="swiper-wrapper py-5 flex items-stretch">
+						{% for story in success_stories %}
 
 
-						{% set story_data = {
+							{% set story_data = {
                                 'tittle': story.get_field('tittle_company'),
                                 'sector': story.get_field('sector'),
                                 'description': story.get_field('description'),
@@ -28,30 +31,27 @@
                                 'full_story': story.get_field('full_story'),
 
                             } %}
-						{% set first_photo_url = function('get_first_image_from_rendered_content', story.get_field('full_story')) %}
+							{% set first_photo_url = function('get_first_image_from_rendered_content', story.get_field('full_story')) %}
 
-						<div class="swiper-slide rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group h-full flex flex-col cursor-pointer" onclick="openPopup(this)" data-story='{{ story_data | json_encode | e('html_attr') }}'>
+							<div class="swiper-slide rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group h-full flex flex-col cursor-pointer" onclick="openPopup(this)" data-story='{{ story_data | json_encode | e('html_attr') }}'>
 
-							<div class="relative h-48 rounded-t-xl bg-cover bg-center" style="background-image: url('{{ first_photo_url }}');">
-								<div class="absolute bottom-4 left-6 text-white z-10 bg-white/30 backdrop-blur rounded-lg px-3">
-									<h3 class="text-2xl font-semibold mb-1 text-shadow">{{ story_data.tittle }}</h3>
-									<p class="text-sm text-gray-200 text-shadow">{{ story_data.sector }}</p>
+								<div class="relative h-48 rounded-t-xl bg-cover bg-center" style="background-image: url('{{ first_photo_url }}');">
+									<div class="absolute bottom-4 left-6 text-white z-10 bg-white/30 backdrop-blur rounded-lg px-3">
+										<h3 class="text-2xl font-semibold mb-1 text-shadow">{{ story_data.tittle }}</h3>
+										<p class="text-sm text-gray-200 text-shadow">{{ story_data.sector }}</p>
+									</div>
+									<div class="absolute top-10 right-4 bg-white/30 backdrop-blur rounded-lg px-3 py-1 z-10">
+										<span class="text-white text-sm font-semibold">{{ story_data.support }}% sprijin</span>
+									</div>
 								</div>
-								<div class="absolute top-10 right-4 bg-white/30 backdrop-blur rounded-lg px-3 py-1 z-10">
-									<span class="text-white text-sm font-semibold">{{ story_data.support }}% sprijin</span>
+								<div class="p-6 flex-grow">
+									<p class="text-gray-700 text-sm leading-relaxed">{{ story_data.description }}</p>
 								</div>
 							</div>
-							<div class="p-6 flex-grow">
-								<p class="text-gray-700 text-sm leading-relaxed">{{ story_data.description }}</p>
-							</div>
-						</div>
-					{% endfor %}
+						{% endfor %}
+					</div>
 				</div>
-			</div>
-
-			<div class="flex justify-center mt-8">
-				<div class="swiper-button-prev relative w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-200 mr-4"></div>
-				<div class="swiper-button-next relative w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-200"></div>
+				<div class="z-100 swiper-button-next absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center cursor-pointer transition-colors duration-200"></div>
 			</div>
 		{% endif %}
 	</div>
@@ -76,281 +76,281 @@
 
 <script>
 	// Инициализация Swiper для историй успеха
-														document.addEventListener('DOMContentLoaded', function () {
-														const swiper = new Swiper('.swiper-container', {
-															slidesPerView: 1.1,
-															spaceBetween: 24,
-															loop: false,
-															autoplay: {
-																	delay: 5000, // Задержка в 5 секунд
-																	disableOnInteraction: false // Продолжать автослайд после взаимодействия пользователя
-																},
-															navigation: {
-																nextEl: '.swiper-button-next',
-																prevEl: '.swiper-button-prev'
-															},
-															breakpoints: {
-																640: {
-																	slidesPerView: 2.1,
-																	spaceBetween: 32
-																},
-																1024: {
-																	slidesPerView: 3,
-																	spaceBetween: 40
-																}
-															},
-															on: {
-																init: function () {
-																	setEqualHeight(this);
-																},
-																resize: function () {
-																	setEqualHeight(this);
-																}
-															}
-														});
-														
-														// Функция для установки одинаковой высоты слайдам
-														function setEqualHeight(swiperInstance) {
-															const slides = swiperInstance.slides;
-															let maxHeight = 0;
-															slides.forEach(slide => {
-																slide.style.height = '';
-															});
-															slides.forEach(slide => {
-																if (slide.offsetHeight > maxHeight) {
-																	maxHeight = slide.offsetHeight;
-																}
-															});
-															slides.forEach(slide => {
-																slide.style.height = `${maxHeight}px`;
-															});
-														}
-														});
-														
-														// Функция для парсинга HTML и извлечения URL-адресов изображений
-														function parseImagesFromHtml(htmlString) {
-														// Создаем временный DOM-элемент
-														const parser = new DOMParser();
-														const doc = parser.parseFromString(htmlString, 'text/html');
-														const images = doc.querySelectorAll('img');
-														const image_urls = [];
-														
-														
-														
-														images.forEach(img => {
-															let src = img.getAttribute('src');
-															if (src) {
-																// Удаляем суффикс, например '-150x150'
-																const originalSrc = src.replace(/-\d+x\d+\./, '.');
-																image_urls.push({
-																	url: originalSrc,
-																	// Также можно добавить другие атрибуты, например, alt
-																	alt: img.getAttribute('alt')
-																});
-															}
-														});
-														
-														
-														return image_urls;
-														}
-														// Слушатель кликов вне поп-апа (модифицирован для работы с двумя поп-апами)
-														function handleOutsideClick(event) {
-															const successPopup = document.getElementById('successPopup');
-															const successPopupContent = successPopup.querySelector('div.bg-white');
-															const imagePopup = document.getElementById('imagePopup');
-															const imagePopupContent = imagePopup.querySelector('div.relative');
-														
-															// Находим кнопку закрытия увеличенного фото по ID
-															const closeImageButton = document.getElementById('closeImagePopupButton');
-														
-															// Логика 1: Если открыт поп-ап с увеличенным фото
-															if (imagePopup.classList.contains('flex')) {
-																// Проверяем, что клик был вне контента И НЕ на кнопке закрытия.
-																// Это и есть ваша логика "отсеивания нажатия вне imagepopup".
-																if (!imagePopupContent.contains(event.target) && event.target !== closeImageButton) {
-																	closeImagePopup();
-																}
-																// В любом случае, когда imagePopup открыт, мы должны прекратить выполнение
-																// функции, чтобы не обрабатывать основной поп-ап.
-																return;
-															}
-														
-															// Логика 2: Если imagePopup ЗАКРЫТ, проверяем основной поп-ап
-															if (successPopup.classList.contains('flex') && !successPopupContent.contains(event.target)) {
-																closePopup();
-															}
-														}
-														// Функции для управления Pop-up
-														function openPopup(element) {
-														const storyData = element.getAttribute('data-story');
-														const story = JSON.parse(storyData);
-														
-														const popup = document.getElementById('successPopup');
-														const popupContent = document.getElementById('popupContent');
-														
-														// Создаем временный DOM-элемент для парсинга
-														const tempDiv = document.createElement('div');
-														tempDiv.innerHTML = story.full_story;
-														
-														// Парсим изображения из HTML перед его очисткой
-														const galleryImages = [];
-														tempDiv.querySelectorAll('img').forEach(img => {
-															let src = img.getAttribute('src');
-															if (src) {
-																const originalSrc = src.replace(/-\d+x\d+\./, '.');
-																galleryImages.push({
-																	url: originalSrc,
-																	alt: img.getAttribute('alt')
-																});
-															}
-														});
-														
-														// Удаляем из временного DOM-элемента все блоки галереи WordPress
-														tempDiv.querySelectorAll('.gallery, style[id*="gallery"], dl').forEach(el => el.remove());
-														
-														// Обновляем full_story чистым контентом (без галереи и стилей)
-														story.full_story = tempDiv.innerHTML.trim();
-														
-														
-														let galleryHtml = '';
-														if (galleryImages && galleryImages.length > 0) {
-															const popupSwiperId = 'popupGallery-' + story.tittle.replace(/\s+/g, '-');
-															galleryHtml = `
-																<div class="relative mb-6">
-																	<div class="swiper-container-popup overflow-hidden p-[10px]" id="${popupSwiperId}">
-																		<div class="swiper-wrapper">
-																			${galleryImages.map(photo => `
-																				<div class="swiper-slide flex justify-center items-center cursor-pointer" onclick="openImagePopup('${photo.url}', '${photo.alt}')">
-																					<img src="${photo.url}" alt="${photo.alt}" class="rounded-lg max-w-full max-h-full object-contain">
-																				</div>
-																			`).join('')}
-																		</div>
-																		<div class="swiper-button-prev-popup absolute left-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer p-3 rounded-full bg-white/50 backdrop-blur-sm text-gray-800 transition-colors duration-300 hover:bg-white/70">
-																			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-																				<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-																			</svg>
-																		</div>
-																		<div class="swiper-button-next-popup absolute right-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer p-3 rounded-full bg-white/50 backdrop-blur-sm text-gray-800 transition-colors duration-300 hover:bg-white/70">
-																			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-																				<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-																			</svg>
-																		</div>
-																	</div>
-																</div>
-															`;
-														}
-														
-														const contentHtml = `
-															${galleryHtml}
-															 <div class="grid grid-cols-3 gap-4 mb-8">
-													            <div class="text-center p-4 bg-blue-50 rounded-lg">
-													                <div class="text-2xl font-semibold text-blue-600">${story.investment}M</div>
-													                <div class="text-sm text-gray-500">Investiție totală</div>
-													            </div>
-													            <div class="text-center p-4 bg-green-50 rounded-lg">
-													                <div class="text-2xl font-semibold text-green-600">${story.aid}M</div>
-													                <div class="text-sm text-gray-500">Ajutor acordat</div>
-													            </div>
-													            <div class="text-center p-4 bg-blue-50 rounded-lg">
-													                <div class="text-2xl font-semibold text-blue-600">${story.jobs}</div>
-													                <div class="text-sm text-gray-500">Locuri de muncă</div>
-													            </div>
-													        </div>
-															<h3 class="text-4xl font-bold text-gray-900 mb-2">${story.tittle}</h3>
-															<p class="text-lg text-gray-600 mb-6">${story.sector}</p>
-															
-														
-														
-															<div class="mb-8">
-																<blockquote class="border-l-4 border-blue-500 pl-4 text-lg italic text-gray-700">
-																	"${story.quote}"
-																</blockquote>
-															</div>
-														
-														`;
-														
-														popupContent.innerHTML = contentHtml;
-														popup.classList.remove('hidden');
-														popup.classList.add('flex');
-														
-															// Добавляем класс, который запрещает скролл на body
-														document.body.classList.add('overflow-hidden');
-														// Добавляем слушатель клика вне поп-апа
-														document.addEventListener('mousedown', handleOutsideClick);
-														
-														if (galleryImages && galleryImages.length > 0) {
-															const popupSwiperId = 'popupGallery-' + story.tittle.replace(/\s+/g, '-');
-															
-															// Устанавливаем фиксированную высоту для контейнера слайдера
-															const popupSwiperContainer = document.getElementById(popupSwiperId);
-															popupSwiperContainer.style.height = '30vh'; // Можно задать другую высоту
-															
-															new Swiper (`#${popupSwiperId}`, {
-																slidesPerView: 3,
-																spaceBetween: 10,
-																loop: true,
-																speed: 1000,
-																autoplay: {
-																	delay: 3000, // Задержка в 5 секунд
-																	disableOnInteraction: false // Продолжать автослайд после взаимодействия пользователя
-																},
-																navigation: {
-																	nextEl: `.swiper-button-next-popup`,
-																	prevEl: `.swiper-button-prev-popup`,
-																},
-															});
-															
-														}
-														}
-														// Новая функция для открытия поп-апа с увеличенным фото
-														function openImagePopup(imageUrl, imageAlt) {
-															const imagePopup = document.getElementById('imagePopup');
-															const enlargedImage = document.getElementById('enlargedImage');
-														
-															enlargedImage.src = imageUrl;
-															enlargedImage.alt = imageAlt;
-														
-															imagePopup.classList.remove('hidden');
-															imagePopup.classList.add('flex');
-														
-															// Добавляем класс, который запрещает скролл на body
-															document.body.classList.add('overflow-hidden');
-															// Добавляем слушатель клика вне поп-апа
-															document.addEventListener('mousedown', handleOutsideClick);
-														
-														}
-														
-														// Новая функция для закрытия поп-апа с увеличенным фото
-														function closeImagePopup() {
-															const imagePopup = document.getElementById('imagePopup');
-															const enlargedImage = document.getElementById('enlargedImage');
-														
-															imagePopup.classList.remove('flex');
-															imagePopup.classList.add('hidden');
-														
-															enlargedImage.src = '';
-															enlargedImage.alt = '';
-														
-															// Удаляем класс, который разрешает скролл на body
-															document.body.classList.remove('overflow-hidden');
-															// Удаляем слушатель клика вне поп-апа
-															document.removeEventListener('mousedown', handleOutsideClick);
-														}
-														function closePopup() {
-														const popup = document.getElementById('successPopup');
-														popup.classList.remove('flex');
-														popup.classList.add('hidden');
-														document.getElementById('popupContent').innerHTML = '';
-														
-														// Проверяем, что не открыт поп-ап с увеличенным фото, прежде чем разрешить скролл
-														const imagePopup = document.getElementById('imagePopup');
-														if (!imagePopup.classList.contains('flex')) {
-															document.body.classList.remove('overflow-hidden');
-														}
-															// Удаляем класс, который разрешает скролл на body
-														document.body.classList.remove('overflow-hidden');
-														// Удаляем слушатель клика вне поп-апа
-														document.removeEventListener('mousedown', handleOutsideClick);
-														}
-														</script>
-															{% endblock %}
+								document.addEventListener('DOMContentLoaded', function () {
+								const swiper = new Swiper('.swiper-container', {
+									slidesPerView: 1.1,
+									spaceBetween: 24,
+									loop: false,
+									autoplay: {
+											delay: 5000, // Задержка в 5 секунд
+											disableOnInteraction: false // Продолжать автослайд после взаимодействия пользователя
+										},
+									navigation: {
+										nextEl: '.swiper-button-next',
+										prevEl: '.swiper-button-prev'
+									},
+									breakpoints: {
+										640: {
+											slidesPerView: 2.1,
+											spaceBetween: 32
+										},
+										1024: {
+											slidesPerView: 3,
+											spaceBetween: 40
+										}
+									},
+									on: {
+										init: function () {
+											setEqualHeight(this);
+										},
+										resize: function () {
+											setEqualHeight(this);
+										}
+									}
+								});
+								
+								// Функция для установки одинаковой высоты слайдам
+								function setEqualHeight(swiperInstance) {
+									const slides = swiperInstance.slides;
+									let maxHeight = 0;
+									slides.forEach(slide => {
+										slide.style.height = '';
+									});
+									slides.forEach(slide => {
+										if (slide.offsetHeight > maxHeight) {
+											maxHeight = slide.offsetHeight;
+										}
+									});
+									slides.forEach(slide => {
+										slide.style.height = `${maxHeight}px`;
+									});
+								}
+								});
+								
+								// Функция для парсинга HTML и извлечения URL-адресов изображений
+								function parseImagesFromHtml(htmlString) {
+								// Создаем временный DOM-элемент
+								const parser = new DOMParser();
+								const doc = parser.parseFromString(htmlString, 'text/html');
+								const images = doc.querySelectorAll('img');
+								const image_urls = [];
+								
+								
+								
+								images.forEach(img => {
+									let src = img.getAttribute('src');
+									if (src) {
+										// Удаляем суффикс, например '-150x150'
+										const originalSrc = src.replace(/-\d+x\d+\./, '.');
+										image_urls.push({
+											url: originalSrc,
+											// Также можно добавить другие атрибуты, например, alt
+											alt: img.getAttribute('alt')
+										});
+									}
+								});
+								
+								
+								return image_urls;
+								}
+								// Слушатель кликов вне поп-апа (модифицирован для работы с двумя поп-апами)
+								function handleOutsideClick(event) {
+									const successPopup = document.getElementById('successPopup');
+									const successPopupContent = successPopup.querySelector('div.bg-white');
+									const imagePopup = document.getElementById('imagePopup');
+									const imagePopupContent = imagePopup.querySelector('div.relative');
+								
+									// Находим кнопку закрытия увеличенного фото по ID
+									const closeImageButton = document.getElementById('closeImagePopupButton');
+								
+									// Логика 1: Если открыт поп-ап с увеличенным фото
+									if (imagePopup.classList.contains('flex')) {
+										// Проверяем, что клик был вне контента И НЕ на кнопке закрытия.
+										// Это и есть ваша логика "отсеивания нажатия вне imagepopup".
+										if (!imagePopupContent.contains(event.target) && event.target !== closeImageButton) {
+											closeImagePopup();
+										}
+										// В любом случае, когда imagePopup открыт, мы должны прекратить выполнение
+										// функции, чтобы не обрабатывать основной поп-ап.
+										return;
+									}
+								
+									// Логика 2: Если imagePopup ЗАКРЫТ, проверяем основной поп-ап
+									if (successPopup.classList.contains('flex') && !successPopupContent.contains(event.target)) {
+										closePopup();
+									}
+								}
+								// Функции для управления Pop-up
+								function openPopup(element) {
+								const storyData = element.getAttribute('data-story');
+								const story = JSON.parse(storyData);
+								
+								const popup = document.getElementById('successPopup');
+								const popupContent = document.getElementById('popupContent');
+								
+								// Создаем временный DOM-элемент для парсинга
+								const tempDiv = document.createElement('div');
+								tempDiv.innerHTML = story.full_story;
+								
+								// Парсим изображения из HTML перед его очисткой
+								const galleryImages = [];
+								tempDiv.querySelectorAll('img').forEach(img => {
+									let src = img.getAttribute('src');
+									if (src) {
+										const originalSrc = src.replace(/-\d+x\d+\./, '.');
+										galleryImages.push({
+											url: originalSrc,
+											alt: img.getAttribute('alt')
+										});
+									}
+								});
+								
+								// Удаляем из временного DOM-элемента все блоки галереи WordPress
+								tempDiv.querySelectorAll('.gallery, style[id*="gallery"], dl').forEach(el => el.remove());
+								
+								// Обновляем full_story чистым контентом (без галереи и стилей)
+								story.full_story = tempDiv.innerHTML.trim();
+								
+								
+								let galleryHtml = '';
+								if (galleryImages && galleryImages.length > 0) {
+									const popupSwiperId = 'popupGallery-' + story.tittle.replace(/\s+/g, '-');
+									galleryHtml = `
+										<div class="relative mb-6">
+											<div class="swiper-container-popup overflow-hidden p-[10px]" id="${popupSwiperId}">
+												<div class="swiper-wrapper">
+													${galleryImages.map(photo => `
+														<div class="swiper-slide flex justify-center items-center cursor-pointer" onclick="openImagePopup('${photo.url}', '${photo.alt}')">
+															<img src="${photo.url}" alt="${photo.alt}" class="rounded-lg max-w-full max-h-full object-contain">
+														</div>
+													`).join('')}
+												</div>
+												<div class="swiper-button-prev-popup absolute left-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer p-3 rounded-full bg-white/50 backdrop-blur-sm text-gray-800 transition-colors duration-300 hover:bg-white/70">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+														<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+													</svg>
+												</div>
+												<div class="swiper-button-next-popup absolute right-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer p-3 rounded-full bg-white/50 backdrop-blur-sm text-gray-800 transition-colors duration-300 hover:bg-white/70">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+														<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+													</svg>
+												</div>
+											</div>
+										</div>
+									`;
+								}
+								
+								const contentHtml = `
+									${galleryHtml}
+										<div class="grid grid-cols-3 gap-4 mb-8">
+										<div class="text-center p-4 bg-blue-50 rounded-lg">
+											<div class="text-2xl font-semibold text-blue-600">${story.investment}M</div>
+											<div class="text-sm text-gray-500">Investiție totală</div>
+										</div>
+										<div class="text-center p-4 bg-green-50 rounded-lg">
+											<div class="text-2xl font-semibold text-green-600">${story.aid}M</div>
+											<div class="text-sm text-gray-500">Ajutor acordat</div>
+										</div>
+										<div class="text-center p-4 bg-blue-50 rounded-lg">
+											<div class="text-2xl font-semibold text-blue-600">${story.jobs}</div>
+											<div class="text-sm text-gray-500">Locuri de muncă</div>
+										</div>
+									</div>
+									<h3 class="text-4xl font-bold text-gray-900 mb-2">${story.tittle}</h3>
+									<p class="text-lg text-gray-600 mb-6">${story.sector}</p>
+									
+								
+								
+									<div class="mb-8">
+										<blockquote class="border-l-4 border-blue-500 pl-4 text-lg italic text-gray-700">
+											"${story.quote}"
+										</blockquote>
+									</div>
+								
+								`;
+								
+								popupContent.innerHTML = contentHtml;
+								popup.classList.remove('hidden');
+								popup.classList.add('flex');
+								
+									// Добавляем класс, который запрещает скролл на body
+								document.body.classList.add('overflow-hidden');
+								// Добавляем слушатель клика вне поп-апа
+								document.addEventListener('mousedown', handleOutsideClick);
+								
+								if (galleryImages && galleryImages.length > 0) {
+									const popupSwiperId = 'popupGallery-' + story.tittle.replace(/\s+/g, '-');
+									
+									// Устанавливаем фиксированную высоту для контейнера слайдера
+									const popupSwiperContainer = document.getElementById(popupSwiperId);
+									popupSwiperContainer.style.height = '30vh'; // Можно задать другую высоту
+									
+									new Swiper (`#${popupSwiperId}`, {
+										slidesPerView: 3,
+										spaceBetween: 10,
+										loop: true,
+										speed: 1000,
+										autoplay: {
+											delay: 3000, // Задержка в 5 секунд
+											disableOnInteraction: false // Продолжать автослайд после взаимодействия пользователя
+										},
+										navigation: {
+											nextEl: `.swiper-button-next-popup`,
+											prevEl: `.swiper-button-prev-popup`,
+										},
+									});
+									
+								}
+								}
+								// Новая функция для открытия поп-апа с увеличенным фото
+								function openImagePopup(imageUrl, imageAlt) {
+									const imagePopup = document.getElementById('imagePopup');
+									const enlargedImage = document.getElementById('enlargedImage');
+								
+									enlargedImage.src = imageUrl;
+									enlargedImage.alt = imageAlt;
+								
+									imagePopup.classList.remove('hidden');
+									imagePopup.classList.add('flex');
+								
+									// Добавляем класс, который запрещает скролл на body
+									document.body.classList.add('overflow-hidden');
+									// Добавляем слушатель клика вне поп-апа
+									document.addEventListener('mousedown', handleOutsideClick);
+								
+								}
+								
+								// Новая функция для закрытия поп-апа с увеличенным фото
+								function closeImagePopup() {
+									const imagePopup = document.getElementById('imagePopup');
+									const enlargedImage = document.getElementById('enlargedImage');
+								
+									imagePopup.classList.remove('flex');
+									imagePopup.classList.add('hidden');
+								
+									enlargedImage.src = '';
+									enlargedImage.alt = '';
+								
+									// Удаляем класс, который разрешает скролл на body
+									document.body.classList.remove('overflow-hidden');
+									// Удаляем слушатель клика вне поп-апа
+									document.removeEventListener('mousedown', handleOutsideClick);
+								}
+								function closePopup() {
+								const popup = document.getElementById('successPopup');
+								popup.classList.remove('flex');
+								popup.classList.add('hidden');
+								document.getElementById('popupContent').innerHTML = '';
+								
+								// Проверяем, что не открыт поп-ап с увеличенным фото, прежде чем разрешить скролл
+								const imagePopup = document.getElementById('imagePopup');
+								if (!imagePopup.classList.contains('flex')) {
+									document.body.classList.remove('overflow-hidden');
+								}
+									// Удаляем класс, который разрешает скролл на body
+								document.body.classList.remove('overflow-hidden');
+								// Удаляем слушатель клика вне поп-апа
+								document.removeEventListener('mousedown', handleOutsideClick);
+								}
+								</script>
+									{% endblock %}

@@ -30,7 +30,7 @@ $args = [
 $context['slides'] = Timber::get_posts($args);
 
 // ACF поля для Despre секции
-$context['despre_description'] = get_field('despre_description') ?: 'none';
+$context['tittle_scopul_programului'] = get_field('tittle_scopul_programului') ?: 'none';
 $context['scopul_programului'] = get_field('scopul_programului') ?: 'none';
 
 // Создаем пустой массив для целей программы

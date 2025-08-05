@@ -3,7 +3,7 @@
 	<footer id="contact" class="bg-gov-dark-blue text-white py-16">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div
-				class="grid grid-cols-1 md:grid-cols-4 gap-8">
+				class="grid grid-cols-1 md:grid-cols-3 gap-8">
 				<!-- Column 1: Logo and Contact -->
 				<div>
 					<div
@@ -44,23 +44,35 @@
 						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_2_title }}</h3>
 					{% endif %}
 					<ul class="space-y-2 text-base text-blue-200">
-						{% if fields.footer_partner_1 %}
-							<li>{{ fields.footer_partner_1 }}</li>
+						{% if fields.footer_partner_1 and fields.footer_partner_1_url %}
+							<li>
+								<a href="{{ fields.footer_partner_1_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_1 }}</a>
+							</li>
 						{% endif %}
-						{% if fields.footer_partner_2 %}
-							<li>{{ fields.footer_partner_2 }}</li>
+						{% if fields.footer_partner_2 and fields.footer_partner_2_url %}
+							<li>
+								<a href="{{ fields.footer_partner_2_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_2 }}</a>
+							</li>
 						{% endif %}
-						{% if fields.footer_partner_3 %}
-							<li>{{ fields.footer_partner_3 }}</li>
+						{% if fields.footer_partner_3 and fields.footer_partner_3_url %}
+							<li>
+								<a href="{{ fields.footer_partner_3_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_3 }}</a>
+							</li>
 						{% endif %}
-						{% if fields.footer_partner_4 %}
-							<li>{{ fields.footer_partner_4 }}</li>
+						{% if fields.footer_partner_4 and fields.footer_partner_4_url %}
+							<li>
+								<a href="{{ fields.footer_partner_4_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_4 }}</a>
+							</li>
 						{% endif %}
-						{% if fields.footer_partner_5 %}
-							<li>{{ fields.footer_partner_5 }}</li>
+						{% if fields.footer_partner_5 and fields.footer_partner_5_url %}
+							<li>
+								<a href="{{ fields.footer_partner_5_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_5 }}</a>
+							</li>
 						{% endif %}
-						{% if fields.footer_partner_6 %}
-							<li>{{ fields.footer_partner_6 }}</li>
+						{% if fields.footer_partner_6 and fields.footer_partner_6_url %}
+							<li>
+								<a href="{{ fields.footer_partner_6_url }}" class="hover:text-white transition-colors">{{ fields.footer_partner_6 }}</a>
+							</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -99,29 +111,7 @@
 					</ul>
 				</div>
 
-				<!-- Column 4: Copyright -->
-				<div>
-					{% if fields.column_4_title %}
-						<h3 class="font-semibold mb-4 text-lg">{{ fields.column_4_title }}</h3>
-					{% endif %}
-					<div class="text-base text-blue-200 space-y-3">
-						{% if fields.footer_copyright_text %}
-							<p>{{ fields.footer_copyright_text }}</p>
-						{% endif %}
-						<div class="pt-4 space-y-2">
-							{% if fields.footer_privacy_text and fields.footer_privacy_url %}
-								<div>
-									<a href="{{ fields.footer_privacy_url }}" class="hover:text-white transition-colors">{{ fields.footer_privacy_text }}</a>
-								</div>
-							{% endif %}
-							{% if fields.footer_terms_text and fields.footer_terms_url %}
-								<div>
-									<a href="{{ fields.footer_terms_url }}" class="hover:text-white transition-colors">{{ fields.footer_terms_text }}</a>
-								</div>
-							{% endif %}
-						</div>
-					</div>
-				</div>
+
 			</div>
 		</div>
 	</footer>

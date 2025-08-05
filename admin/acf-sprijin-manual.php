@@ -219,9 +219,9 @@ acf_add_local_field_group(array(
     'location' => array(
         array(
             array(
-                'param' => 'post_type',
+                'param' => 'page_type',
                 'operator' => '==',
-                'value' => 'page', // Afișează pe toate paginile implicit. Ajustați după necesitate.
+                'value' => 'front_page',
             ),
         ),
     ),

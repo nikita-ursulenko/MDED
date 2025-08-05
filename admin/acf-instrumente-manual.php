@@ -70,9 +70,9 @@ acf_add_local_field_group(array(
     'location' => array(
         array(
             array(
-                'param' => 'post_type',
+                'param' => 'page_type',
                 'operator' => '==',
-                'value' => 'page', // Numele blocului, verifică neapărat
+                'value' => 'front_page',
             ),
         ),
     ),

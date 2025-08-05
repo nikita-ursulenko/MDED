@@ -132,9 +132,9 @@ acf_add_local_field_group(array(
     'location' => array( // Reguli de locație: unde va fi afișat acest grup de câmpuri
         array(
             array(
-                'param' => 'post_type',
+                'param' => 'page_type',
                 'operator' => '==',
-                'value' => 'page', // Afișează pe toate paginile. Personalizați acest lucru!
+                'value' => 'front_page',
             ),
         ),
         // === IMPORTANT ===

@@ -110,13 +110,24 @@ acf_add_local_field_group(array(
             'instructions' => 'Заголовок второй колонки. Например: Parteneri',
             'default_value' => 'Parteneri',
         ),
-        array('key' => 'field_footer_partner_1', 'label' => 'Partner 1', 'name' => 'footer_partner_1', 'type' => 'text', 'default_value' => 'Agenția de Investiții'),
-        array('key' => 'field_footer_partner_2', 'label' => 'Partner 2', 'name' => 'footer_partner_2', 'type' => 'text', 'default_value' => 'Camera de Comerț'),
-        array('key' => 'field_footer_partner_3', 'label' => 'Partner 3', 'name' => 'footer_partner_3', 'type' => 'text', 'default_value' => 'ODIMM'),
-        array('key' => 'field_footer_partner_4', 'label' => 'Partner 4', 'name' => 'footer_partner_4', 'type' => 'text', 'default_value' => 'FIA'),
-        array('key' => 'field_footer_partner_5', 'label' => 'Partner 5', 'name' => 'footer_partner_5', 'type' => 'text', 'default_value' => 'USAID'),
-        array('key' => 'field_footer_partner_6', 'label' => 'Partner 6', 'name' => 'footer_partner_6', 'type' => 'text', 'default_value' => 'Banca Mondială'),
-
+       // Partner 1
+        array('key' => 'field_footer_partner_1', 'label' => 'Partner 1', 'name' => 'footer_partner_1', 'type' => 'text', 'default_value' => 'Agenția de Investiții', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_1_url', 'label' => 'Partner 1 URL', 'name' => 'footer_partner_1_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 1', 'default_value' => '', 'wrapper' => array('width' => '50')),
+        // Partner 2
+        array('key' => 'field_footer_partner_2', 'label' => 'Partner 2', 'name' => 'footer_partner_2', 'type' => 'text', 'default_value' => 'Camera de Comerț', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_2_url', 'label' => 'Partner 2 URL', 'name' => 'footer_partner_2_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 2', 'default_value' => '', 'wrapper' => array('width' => '50')),
+        // Partner 3
+        array('key' => 'field_footer_partner_3', 'label' => 'Partner 3', 'name' => 'footer_partner_3', 'type' => 'text', 'default_value' => 'ODIMM', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_3_url', 'label' => 'Partner 3 URL', 'name' => 'footer_partner_3_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 3', 'default_value' => '', 'wrapper' => array('width' => '50')),
+        // Partner 4
+        array('key' => 'field_footer_partner_4', 'label' => 'Partner 4', 'name' => 'footer_partner_4', 'type' => 'text', 'default_value' => 'FIA', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_4_url', 'label' => 'Partner 4 URL', 'name' => 'footer_partner_4_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 4', 'default_value' => '', 'wrapper' => array('width' => '50')),
+        // Partner 5
+        array('key' => 'field_footer_partner_5', 'label' => 'Partner 5', 'name' => 'footer_partner_5', 'type' => 'text', 'default_value' => 'USAID', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_5_url', 'label' => 'Partner 5 URL', 'name' => 'footer_partner_5_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 5', 'default_value' => '', 'wrapper' => array('width' => '50')),
+        // Partner 6
+        array('key' => 'field_footer_partner_6', 'label' => 'Partner 6', 'name' => 'footer_partner_6', 'type' => 'text', 'default_value' => 'Banca Mondială', 'wrapper' => array('width' => '50')),
+        array('key' => 'field_footer_partner_6_url', 'label' => 'Partner 6 URL', 'name' => 'footer_partner_6_url', 'type' => 'text', 'instructions' => 'URL для ссылки партнера 6', 'default_value' => '', 'wrapper' => array('width' => '50')),
         // Column 3: E-Government Sites (fixed number of fields)
         array(
             'key' => 'field_footer_column3_heading',
@@ -143,74 +154,13 @@ acf_add_local_field_group(array(
         array('key' => 'field_egov_site_4_url', 'label' => 'Site 4 URL', 'name' => 'egov_site_4_url', 'type' => 'text', 'default_value' => 'https://particip.gov.md', 'wrapper' => array('width' => '50')),
         array('key' => 'field_egov_site_5_name', 'label' => 'Site 5 Name', 'name' => 'egov_site_5_name', 'type' => 'text', 'default_value' => 'cancelaria.gov.md', 'wrapper' => array('width' => '50')),
         array('key' => 'field_egov_site_5_url', 'label' => 'Site 5 URL', 'name' => 'egov_site_5_url', 'type' => 'text', 'default_value' => 'https://cancelaria.gov.md', 'wrapper' => array('width' => '50')),
-
-        // Column 4: Legal Info
-        array(
-            'key' => 'field_footer_column4_heading',
-            'label' => 'Column 4 Settings',
-            'name' => '',
-            'type' => 'message',
-            'message' => 'Настройте заголовок и юридическую информацию для четвертой колонки.',
-        ),
-        array(
-            'key' => 'field_footer_column_4_title',
-            'label' => 'Column 4 Title',
-            'name' => 'column_4_title',
-            'type' => 'text',
-            'instructions' => 'Заголовок четвертой колонки. Например: Informații legale',
-            'default_value' => 'Informații legale',
-        ),
-        array(
-            'key' => 'field_footer_copyright_text',
-            'label' => 'Copyright Text',
-            'name' => 'footer_copyright_text',
-            'type' => 'text',
-            'instructions' => 'Текст авторского права. Например: Toate drepturile rezervate',
-            'default_value' => 'Toate drepturile rezervate',
-        ),
-        array(
-            'key' => 'field_footer_privacy_text',
-            'label' => 'Privacy Policy Text',
-            'name' => 'footer_privacy_text',
-            'type' => 'text',
-            'instructions' => 'Текст для ссылки на политику конфиденциальности.',
-            'default_value' => 'Politica de confidențialitate',
-            'wrapper' => array('width' => '50'),
-        ),
-        array(
-            'key' => 'field_footer_privacy_url',
-            'label' => 'Privacy Policy URL',
-            'name' => 'footer_privacy_url',
-            'type' => 'text',
-            'instructions' => 'URL для ссылки на политику конфиденциальности.',
-            'default_value' => '#',
-            'wrapper' => array('width' => '50'),
-        ),
-        array(
-            'key' => 'field_footer_terms_text',
-            'label' => 'Terms and Conditions Text',
-            'name' => 'footer_terms_text',
-            'type' => 'text',
-            'instructions' => 'Текст для ссылки на условия и положения.',
-            'default_value' => 'Termeni și condiții',
-            'wrapper' => array('width' => '50'),
-        ),
-        array(
-            'key' => 'field_footer_terms_url',
-            'label' => 'Terms and Conditions URL',
-            'name' => 'footer_terms_url',
-            'type' => 'text',
-            'instructions' => 'URL для ссылки на условия и положения.',
-            'default_value' => '#',
-            'wrapper' => array('width' => '50'),
-        ),
     ),
     'location' => array(
         array(
             array(
-                'param' => 'post_type',
+                'param' => 'page_type',
                 'operator' => '==',
-                'value' => 'page',
+                'value' => 'front_page',
             ),
         ),
     ),

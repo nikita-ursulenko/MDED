@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="page-title">Справочник по управлению и разработке сайта MDED</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            transition: margin-top 0.5s ease;
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-button {
+            background: none;
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .lang-button.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .splash-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .splash-screen.active {
+            height: 15vh;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .splash-screen.active .title-splash {
+            display: none;
+        }
+
+        .title-splash {
+            margin-bottom: 2rem;
+            font-size: 2.5em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .manual-button {
+            padding: 15px 30px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        .manual-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .manual-button.active {
+            background-color: #2c3e50;
+            cursor: default;
+            transform: translateY(0);
+        }
+
+        .content-container {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease, margin-top 0.5s ease;
+        }
+
+        .content-container.visible {
+            display: block;
+            opacity: 1;
+            margin-top: 50px;
+        }
+
+        /* Styles from AdminManual.html */
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .step {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .step p {
+            margin: 0;
+        }
+        .step strong {
+            color: #2980b9;
+        }
+        .step-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .note {
+            padding: 15px;
+            background-color: #d1ecf1;
+            border-left: 4px solid #1abc9c;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .step img {
+            max-height: 400px;
+        }
+
+        /* Styles for the Developer's guide */
+        .developer-guide h2, .developer-guide h3 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        .developer-guide ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .developer-guide ul li {
+            background: #ecf0f1;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        /* Adaptive (Responsive) Styles */
+        @media (max-width: 768px) {
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+                width: 80%;
+            }
+            .manual-button {
+                width: 100%;
+            }
+            .content-container {
+                padding: 20px;
+            }
+            .title-splash {
+                font-size: 2em;
+            }
+        }
+        /* Стили для выпадающей секции (dropdown) */
+        .collapsible-section {
+            margin-bottom: 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        summary {
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 20px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s ease-in-out;
+            list-style: none; /* Это универсальный способ скрыть маркер */
+        }
+        summary:hover {
+            background-color: #dcdcdc;
+        }
+        /* Скрываем стандартный маркер/стрелку в WebKit-браузерах */
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        /* Создаем собственную стрелку с помощью псевдоэлемента */
+        summary:before {
+            content: "▶";
+            display: inline-block;
+            margin-right: 15px;
+            transition: transform 0.2s ease-in-out;
+        }
+        /* Поворачиваем стрелку при открытии */
+        details[open] summary:before {
+            transform: rotate(90deg);
+        }
+        /* Стиль для активного состояния (когда блок открыт) */
+        details[open] summary {
+            background-color: #dcdcdc;
+            color: #212529;
+        }
+        .collapsible-content {
+            padding: 20px;
+        }
+        .splash-screen.active .title-splash {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="language-switcher">
+    <button class="lang-button active" onclick="setLanguage('ru', this)">RU</button>
+    <button class="lang-button" onclick="setLanguage('ro', this)">RO</button>
+</div>
+
+<div id="splash-screen" class="splash-screen">
+    <h1 class="title-splash" data-translate="main-title">Справочник по управлению и разработке сайта MDED</h1>
+    <div class="button-container" id="button-container">
+        <button class="manual-button" data-manual="admin-manual" data-translate="admin-button" onclick="showManual(this)">Инструкция для Администратора</button>
+        <button class="manual-button" data-manual="developer-manual" data-translate="developer-button" onclick="showManual(this)">Руководство для Разработчика</button>
+    </div>
+</div>
+
+<div id="admin-manual" class="content-container">
+    <div class="container">
+       
+        <h1 data-translate="page-title-admin">Инструкция по управлению сайтом "MDED"</h1>
+        <h3 data-translate="page-subtitle" style="color: #007bff; text-align: center;">Это руководство поможет вам вносить изменения в структуру и контент вашего сайта!</h3>
+        <details class="collapsible-section">
+            <summary data-translate="nav-title">1. Управление меню и навигацией |Nav|</summary>
+            <div class="collapsible-content">
+                <p data-translate="nav-intro">Навигационное меню позволяет пользователям быстро переходить к ключевым разделам сайта. Следующая инструкция объясняет, как добавить новую ссылку в основное меню.</p>
+
+                <div class="note">
+                    <h3 data-translate="nav-note-title">Важное замечание:</h3>
+                    <p data-translate="nav-note-p1">В этом меню можно добавить два типа ссылок:</p>
+                    <ul>
+                        <li><strong data-translate="nav-link-type1">Обычная ссылка</strong> <span data-translate="nav-link-type1-desc">на внешнюю или внутреннюю страницу.</span></li>
+                        <li><strong data-translate="nav-link-type2">Якорная ссылка</strong> <span data-translate="nav-link-type2-desc">на существующий раздел на главной странице. Для этого программист должен предварительно добавить уникальный <code>id</code> к нужному блоку. Например, для блока "FAQ" <code>id</code> может быть <code>#faq</code>, и именно его нужно будет указать при добавлении ссылки.</span></li>
+                    </ul>
+                </div>
+
+                <h3 data-translate="nav-add-title">Как добавить новую ссылку в меню</h3>
+                
+                <div class="step">
+                    <p><strong data-translate="nav-step1">Шаг 1. Откройте настройки кастомизации.</strong></p>
+                    <p data-translate="nav-step1-desc">На главной странице сайта нажмите на кнопку <strong>"Customize"</strong> (Кастомизировать).</p>
+                    <img src="image/1-Nav/1.1.png" alt="Снимок экрана кастомизации" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="nav-step2">Шаг 2. Перейдите в раздел "Menus".</strong></p>
+                    <p data-translate="nav-step2-desc">В боковом меню выберите пункт <strong>"Menus"</strong> (Меню).</p>
+                    <img src="image/1-Nav/1.2.png" alt="Снимок экрана с разделом меню" class="step-image" >
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="nav-step3">Шаг 3. Выберите "Main Menu".</strong></p>
+                    <p data-translate="nav-step3-desc">Выберите <strong>"Main Menu"</strong> (Главное меню) для редактирования.</p>
+                    <img src="image/1-Nav/1.3.png" alt="Снимок экрана с главным меню" class="step-image" >
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="nav-step4">Шаг 4. Добавьте новый элемент.</strong></p>
+                    <p data-translate="nav-step4-desc">В открывшемся списке текущих пунктов меню нажмите кнопку <strong>"Add Items"</strong> (Добавить элементы).</p>
+                    <img src="image/1-Nav/1.4.png" alt="Снимок экрана с кнопкой добавить" class="step-image" >
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="nav-step5">Шаг 5. Выберите "Custom Links".</strong></p>
+                    <p data-translate="nav-step5-desc">Нажмите на раскрывающийся блок <strong>"Custom Links"</strong> (Пользовательские ссылки).</p>
+                    <img src="image/1-Nav/1.5.png" alt="Снимок экрана с пользовательскими ссылками" class="step-image" >
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="nav-step6">Шаг 6. Заполните поля.</strong></p>
+                    <p data-translate="nav-step6-desc">В поле <strong>"URL"</strong> введите полный адрес страницы или якорный ID (например, <code>#my-new-section</code>). В поле <strong>"Link Text"</strong> введите название, которое будет отображаться в меню (например, "Новый раздел").</p>
+                    <img src="image/1-Nav/1.6.png" alt="Снимок экрана с формой для новой ссылки" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="nav-step7">Шаг 7. Опубликуйте изменения.</strong></p>
+                    <p data-translate="nav-step7-desc">После добавления нового элемента нажмите кнопку <strong>"Publish"</strong> (Опубликовать) в верхней части экрана, чтобы сохранить изменения и сделать их видимыми на сайте.</p>
+                    <img src="image/1-Nav/1.7.png" alt="Снимок экрана с формой для новой ссылки" class="step-image">
+                </div>
+
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="hero-title">2. Главная сеция |Hero|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="hero-slide-change-title">Смена фотографий слайда</h3>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step1-1">Шаг 1.1. Выберите пункт "Slide-uri".</strong></p>
+                    <p data-translate="hero-step1-1-desc">Для смены фотографий слайдов в главной секции Hero выберите пункт <strong>"Slide-uri"</strong> (Слайды) в боковом меню.</p>
+                    <img src="image/2-Hero/1.1.png" alt="Снимок экрана со списком слайдов" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="hero-step1-2">Шаг 1.2. Просмотр существующих слайдов.</strong></p>
+                    <p data-translate="hero-step1-2-desc">Здесь вы видите уже добавленные фотографии, которые чередуются между собой на сайте в виде слайдов.</p>
+                    <img src="image/2-Hero/1.2.png" alt="Снимок экрана с уже добавленными слайдами" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="hero-step1-3">Шаг 1.3. Добавление нового слайда.</strong></p>
+                    <p data-translate="hero-step1-3-desc">Чтобы добавить новый слайд, нажмите кнопку <strong>"Adaugă un slide nou"</strong> (Добавить новый слайд).</p>
+                    <img src="image/2-Hero/1.3.png" alt="Снимок экрана с кнопкой 'Добавить новый слайд'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step1-4">Шаг 1.4. Дайте название фотографии.</strong></p>
+                    <p data-translate="hero-step1-4-desc">Дайте название новому слайду. Это поможет вам его идентифицировать в дальнейшем.</p>
+                    <img src="image/2-Hero/1.4.png" alt="Снимок экрана с полем для названия и кнопкой 'Add Image'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step1-5">Шаг 1.5. Нажмите "Add Image".</strong></p>
+                    <p data-translate="hero-step1-5-desc">Нажмите кнопку <strong>"Add Image"</strong> (Добавить изображение), чтобы выбрать или загрузить фотографию.</p>
+                    <img src="image/2-Hero/1.5.png" alt="Снимок экрана с полем для названия и кнопкой 'Add Image'" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="hero-step1-6">Шаг 1.6. Выбор существующей фотографии.</strong></p>
+                    <p data-translate="hero-step1-6-desc">В открывшемся окне вы можете выбрать уже существующую фотографию из вашей медиатеки. Выберите нужную и нажмите <strong>"Select"</strong> (Выбрать).</p>
+                    <img src="image/2-Hero/1.6.png" alt="Снимок экрана с медиабиблиотекой" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="hero-step1-7">Шаг 1.7. Загрузка новой фотографии.</strong></p>
+                    <p data-translate="hero-step1-7-desc">Чтобы загрузить новую фотографию, перейдите во вкладку <strong>"Upload files"</strong> (Загрузить файлы). Загрузите изображение, выберите его, нажмите <strong>"Select"</strong>.</p>
+                    <img src="image/2-Hero/1.7.png" alt="Снимок экрана с вкладкой 'Upload files'" class="step-image">
+                </div>
+
+                <div class="step">
+                    <p><strong data-translate="hero-step1-8">Шаг 1.8. Публикация новой фотографии.</strong></p>
+                    <p data-translate="hero-step1-8-desc">После загрузки и выбора нужной фотографии слайда нажмите <strong>"Publish"</strong> (Опубликовать), чтобы добавить новый слайд на сайт.</p>
+                    <img src="image/2-Hero/1.8.png" alt="Снимок экрана с вкладкой 'Upload files'" class="step-image">
+                </div>
+                
+                <h3 data-translate="hero-delete-title">Удаление слайдов</h3>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step2-1">Шаг 2.1. Удаление слайдов.</strong></p>
+                    <p data-translate="hero-step2-1-desc">Чтобы удалить слайд, поставьте галочку рядом с ним, выберите <strong>"Move to Trash"</strong> (Переместить в корзину) в выпадающем меню и нажмите <strong>"Apply"</strong> (Применить).</p>
+                    <img src="image/2-Hero/2.1.png" alt="Снимок экрана с опцией 'Move to Trash'" class="step-image">
+                </div>
+
+                <h3 data-translate="hero-content-change-title">Изменение контента</h3>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step3-1">Шаг 3.1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="hero-step3-1-desc">Для изменения контента главной секции Hero перейдите на страницу <strong>"Home"</strong> (Главная).</p>
+                    <img src="image/2-Hero/3.1.png" alt="Снимок экрана со страницей 'Pages' и кнопкой 'Home'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step3-2">Шаг 3.2. Откройте Hero Section.</strong></p>
+                    <p data-translate="hero-step3-2-desc">Найдите и разверните секцию <strong>"Hero Section"</strong>, чтобы увидеть поля для изменения текста.</p>
+                    <img src="image/2-Hero/3.2.png" alt="Снимок экрана с полями для изменения текста в секции 'Hero'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="hero-step3-3">Шаг 3.3. Сохраните изменения.</strong></p>
+                    <p data-translate="hero-step3-3-desc">После внесения изменений в текст нажмите кнопку <strong>"Save"</strong> (Сохранить) в правом верхнем углу, чтобы применить их на сайте.</p>
+                    <img src="image/2-Hero/3.3.png" alt="Снимок экрана с полями для изменения текста в секции 'Hero' и кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="about-title">3. О нас |Scopul programului|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="about-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="about-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="about-step1-desc">Чтобы изменить контент в этой секции, так же, как и для секции Hero, зайдите на страницу <strong>"Home"</strong> (Главная).</p>
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step2">Шаг 2. Найдите секцию "Scopul programului".</strong></p>
+                    <p data-translate="about-step2-desc">Найдите раздел <strong>"Scopul programului"</strong> (О программе) и измените контент в полях. После этого нажмите <strong>"Save"</strong> (Сохранить) в правом верхнем углу.</p>
+                    <img src="image/3-Despre/1.png" alt="Снимок экрана с секцией 'Scopul programului'" class="step-image">
+                </div>
+
+                <h3 data-translate="about-manage-items-title">Управление пунктами</h3>
+                <div class="step">
+                    <p><strong data-translate="about-step3">Шаг 3. Зайдите в ACF.</strong></p>
+                    <p data-translate="about-step3-desc">Если вы хотите добавить или удалить пункт, зайдите в раздел <strong>"ACF"</strong> в боковом меню.</p>
+                    <img src="image/3-Despre/2.png" alt="Снимок экрана с меню ACF" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step4">Шаг 4. Выберите "Scopul programului".</strong></p>
+                    <p data-translate="about-step4-desc">Выберите <strong>"Scopul programului"</strong> из списка.</p>
+                    <img src="image/3-Despre/3.png" alt="Снимок экрана с выбором 'Scopul programului' в ACF" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step5">Шаг 5. Добавление или удаление пунктов.</strong></p>
+                    <p data-translate="about-step5-desc">Здесь вы можете добавить новый пункт <strong>"contribuind"</strong> или удалить существующий.</p>
+                    <img src="image/3-Despre/4.png" alt="Снимок экрана с полями 'contribuind'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step6">Шаг 6. Следите за нумерацией.</strong></p>
+                    <p data-translate="about-step6-desc">Обязательно учитывайте порядок по цифрам в конце названия поля.</p>
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step7">Шаг 7. Пример правильного заполнения.</strong></p>
+                    <p data-translate="about-step7-desc">Вот пример, как правильно и куда писать `contribuind`.</p>
+                    <img src="image/3-Despre/5.png" alt="Снимок экрана с примером заполнения полей 'contribuind'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step8">Шаг 8. Добавление или удаление.</strong></p>
+                    <p data-translate="about-step8-desc">Нажмите <strong>"Add Field"</strong> (Добавить поле), чтобы добавить новый `contribuind`, или <strong>"Delete"</strong> (Удалить), чтобы удалить существующий.</p>
+                    <img src="image/3-Despre/6.png" alt="Снимок экрана с кнопками 'Add Field' и 'Delete'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step9">Шаг 9. Сохранение изменений.</strong></p>
+                    <p data-translate="about-step9-desc">После добавления нового поля вам нужно заполнить его значением и нажать <strong>"Save Changes"</strong> (Сохранить изменения), чтобы изменения применились на сайте.</p>
+                    <img src="image/3-Despre/7.png" alt="Снимок экрана с полем для нового значения и кнопкой 'Save Changes'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="about-step10">Шаг 10. Изменения новых пунктов.</strong></p>
+                    <p data-translate="about-step10-desc">После того как вы добавили новый пункт через <strong>ACF</strong> заходим в <strong>"Home"</strong> выбираем наше меню <strong>Scopul programului</strong> и видим в конце наш новый пункт. Вводим наше значения для нашего пункта нового и нажимаем <strong>"Save"</strong> (Сохранить изменения), чтобы изменения применились на сайте.</p>
+                    <img src="image/3-Despre/8.png" alt="Снимок экрана с полем для нового значения и кнопкой 'Save Changes'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="succes-title">4. История успеха |Succes|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="succes-add-block-title">Добавление нового блока истории</h3>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step1">Шаг 1. Перейдите в "Povești de succes".</strong></p>
+                    <p data-translate="succes-step1-desc">Чтобы добавить новый блок истории, зайдите в административную панель и выберите пункт <strong>"Povești de succes"</strong> (Истории успеха).</p>
+                    <img src="image/4-Succes/1.1.png" alt="Снимок экрана с меню 'Povești de succes'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step2">Шаг 2. Просмотр существующих историй.</strong></p>
+                    <p data-translate="succes-step2-desc">В этом окне вы увидите список уже существующих историй успеха.</p>
+                    <img src="image/4-Succes/1.png" alt="Снимок экрана с меню 'Povești de succes'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step3">Шаг 3. Нажмите "Adaugă o poveste nouă".</strong></p>
+                    <p data-translate="succes-step3-desc">Нажмите кнопку <strong>"Adaugă o poveste nouă"</strong> (Добавить новую историю).</p>
+                    <img src="image/4-Succes/2.png" alt="Снимок экрана с кнопкой 'Adaugă o poveste nouă'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step4">Шаг 4. Дайте название блоку.</strong></p>
+                    <p data-translate="succes-step4-desc">Обязательно дайте название новому блоку в поле <strong>"Tittle"</strong>. Это название будет отображаться для вас в списке историй, например, <strong>"Example SRL"</strong>.</p>
+                    <img src="image/4-Succes/3.png" alt="Снимок экрана с полем для названия нового блока" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step5">Шаг 5. Заполните контент.</strong></p>
+                    <p data-translate="succes-step5-desc">Заполните поля контента блока, которые расписаны ниже.</p>
+                    <img src="image/4-Succes/4.png" alt="Снимок экрана с полями для заполнения контента" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step6">Шаг 6. Нажмите "Add Media".</strong></p>
+                    <p data-translate="succes-step6-desc">Для добавления фотографий нажмите кнопку <strong>"Add Media"</strong> (Добавить медиа).</p>
+                    <img src="image/4-Succes/5.png" alt="Снимок экрана с кнопкой 'Add Media'" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step7">Шаг 7. Создайте галерею и выберите фото.</strong></p>
+                    <p data-translate="succes-step7-desc">Выберите опцию <strong>"Media Library"</strong> и выберите фотографии, которые хотите добавить. <br> Если хотите сразу несколько добавить то зажмите кнопку <strong>"Shift"</strong> и нажимайте по фотографиям.</p>
+                    <img src="image/4-Succes/6.jpg" alt="Снимок экрана с окном создания галереи" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step8">Шаг 8. Загрузите новые фото (если нужно).</strong></p>
+                    <p data-translate="succes-step8-desc">Если нужных фотографий нет, сначала загрузите их, а затем создайте галерею. Это очень важный шаг.</p>
+                </div>
+                
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step11">Шаг 10. Проверка в текстовом режиме.</strong></p>
+                    <p data-translate="succes-step11-desc">При нажатии на вкладку <strong>"Text"</strong>, вы должны увидеть код галереи, например, <strong>img ...</strong>. Никакого другого текста рядом не должно быть.</p>
+                    <img src="image/4-Succes/8.png" alt="Снимок экрана с текстовым кодом галереи" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step12">Шаг 11. Завершите заполнение и опубликуйте.</strong></p>
+                    <p data-translate="succes-step12-desc">Заполните весь контент до конца и нажмите кнопку <strong>"Publish"</strong> (Опубликовать).</p>
+                    <img src="image/4-Succes/9.png" alt="Снимок экрана со списком историй, где видно новый блок" class="step-image">
+                </div>
+                
+                <div class="step">
+                    <p><strong data-translate="succes-step13">Шаг 12. Убедитесь, что блок добавлен.</strong></p>
+                    <p data-translate="succes-step13-desc">После публикации вы должны увидеть новый блок в списке историй.</p>
+                    <img src="image/4-Succes/10.png" alt="Снимок экрана со списком историй, где видно новый блок" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="eligibile-title">5. Приемлемые сектора |Sectoare eligibile|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="eligibile-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="eligibile-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="eligibile-step1-desc">Чтобы изменить контент этой секции, зайдите в административную панель и выберите страницу <strong>"Home"</strong>.</p>
+                    <img src="image/5-Eligibile/1.png" alt="Снимок экрана со страницей 'Pages' и кнопкой 'Home'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="eligibile-step2">Шаг 2. Выберите "Setări tabel granturi".</strong></p>
+                    <p data-translate="eligibile-step2-desc">На странице <strong>"Home"</strong> найдите и разверните блок <strong>"Setări tabel granturi"</strong> (Настройки таблицы грантов).</p>
+                    <img src="image/5-Eligibile/2.png" alt="Снимок экрана с блоком 'Setări tabel granturi' на странице Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="eligibile-step3">Шаг 3. Измените контент.</strong></p>
+                    <p data-translate="eligibile-step3-desc">Измените необходимый контент в полях, которые вам нужно отредактировать.</p>
+                </div>
+                <div class="step">
+                    <p><strong data-translate="eligibile-step4">Шаг 4. Сохраните изменения.</strong></p>
+                    <p data-translate="eligibile-step4-desc">Нажмите кнопку <strong>"Save"</strong> (Сохранить) в правом верхнем углу, чтобы применить изменения на сайте.</p>
+                    <img src="image/5-Eligibile/3.png" alt="Снимок экрана с полями для изменения и кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="sprijin-title">6. Финансовая поддержка |Sprijin|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="sprijin-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="sprijin-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="sprijin-step1-desc">Чтобы внести изменения, перейдите на страницу <strong>"Home"</strong> из административного меню.</p>
+                    <img src="image/6-Sprijin/1.png" alt="Снимок экрана со списком страниц, включая Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="sprijin-step2">Шаг 2. Выберите "Structura suportului financiar".</strong></p>
+                    <p data-translate="sprijin-step2-desc">На странице <strong>"Home"</strong> выберите и разверните меню <strong>"Structura Suportului Financiar"</strong> (Структура финансовой поддержки), чтобы изменить данные.</p>
+                    <img src="image/6-Sprijin/2.png" alt="Снимок экрана со списком блоков на странице Home, где выделена 'Structura Suportului Financiar'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="sprijin-step3">Шаг 3. Сохраните изменения.</strong></p>
+                    <p data-translate="sprijin-step3-desc">После внесения изменений нажмите кнопку <strong>"Save"</strong> (Сохранить), чтобы опубликовать их на сайте.</p>
+                    <img src="image/6-Sprijin/3.png" alt="Снимок экрана с кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="beneficiari-title">7. Кто может получить выгоду |Beneficiari|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="beneficiari-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="beneficiari-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="beneficiari-step1-desc">Чтобы изменить контент этой секции, перейдите на страницу <strong>"Home"</strong> из административного меню.</p>
+                    <img src="image/7-Beneficiari/1.png" alt="Снимок экрана со списком страниц, включая Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="beneficiari-step2">Шаг 2. Выберите "Beneficiari".</strong></p>
+                    <p data-translate="beneficiari-step2-desc">На странице <strong>"Home"</strong> выберите и разверните блок <strong>"Beneficiari"</strong> (Бенефициары), чтобы изменить данные.</p>
+                    <img src="image/7-Beneficiari/2.png" alt="Снимок экрана со списком блоков на странице Home, где выделен 'Beneficiari'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="beneficiari-step3">Шаг 3. Сохраните изменения.</strong></p>
+                    <p data-translate="beneficiari-step3-desc">После внесения изменений нажмите кнопку <strong>"Save"</strong> (Сохранить), чтобы применить их на сайте.</p>
+                    <img src="image/7-Beneficiari/3.png" alt="Снимок экрана с кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="criterii-title">8. Критерии отбора |Criterii|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="criterii-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="criterii-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="criterii-step1-desc">Чтобы изменить контент этой секции, перейдите на страницу <strong>"Home"</strong> из административного меню.</p>
+                    <img src="image/8-Criterii/1.png" alt="Снимок экрана со списком страниц, включая Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="criterii-step2">Шаг 2. Выберите "Criterii".</strong></p>
+                    <p data-translate="criterii-step2-desc">На странице <strong>"Home"</strong> выберите и разверните блок <strong>"Criterii"</strong> (Критерии), чтобы изменить данные.</p>
+                    <img src="image/8-Criterii/2.png" alt="Снимок экрана со списком блоков на странице Home, где выделен 'Criterii'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="criterii-step3">Шаг 3. Сохраните изменения.</strong></p>
+                    <p data-translate="criterii-step3-desc">После внесения изменений нажмите кнопку <strong>"Save"</strong> (Сохранить), чтобы опубликовать их на сайте.</p>
+                    <img src="image/8-Criterii/3.png" alt="Снимок экрана с кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="procedura-title">9. Процедура подачи заявки |Procedura|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="procedura-add-delete-files-title">Добавление/Удаление файлов</h3>
+                <div class="step">
+                    <p><strong data-translate="procedura-step1">Шаг 1. Перейдите в раздел "Documente".</strong></p>
+                    <p data-translate="procedura-step1-desc">Чтобы добавить или удалить файлы, перейдите в боковом меню в раздел <strong>"Documente"</strong> (Документы).</p>
+                    <img src="image/9-Procedura/1.png" alt="Снимок экрана с меню 'Documente'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step2">Шаг 2. Просмотр списка документов.</strong></p>
+                    <p data-translate="procedura-step2-desc">В этом разделе вы увидите действующий список с уже добавленными документами.</p>
+                    <img src="image/9-Procedura/2.png" alt="Снимок экрана со списком документов" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step3">Шаг 3. Нажмите "Adaugă un document".</strong></p>
+                    <p data-translate="procedura-step3-desc">Чтобы добавить новый документ, нажмите кнопку <strong>"Adaugă un document"</strong> (Добавить документ).</p>
+                    <img src="image/9-Procedura/3.png" alt="Снимок экрана с кнопкой 'Adaugă un document'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step4">Шаг 4. Укажите название документа.</strong></p>
+                    <p data-translate="procedura-step4-desc">Напишите название документа. Оно будет отображаться только для вас. Обратите внимание, что документы отображаются в порядке очереди, поэтому для изменения порядка их придется удалить и добавить заново в нужной последовательности.</p>
+                    <img src="image/9-Procedura/4.png" alt="Снимок экрана с полем для названия документа" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step5">Шаг 5. Нажмите "Add file".</strong></p>
+                    <p data-translate="procedura-step5-desc">После ввода названия нажмите кнопку <strong>"Add file"</strong> (Добавить файл).</p>
+                    <img src="image/9-Procedura/5.png" alt="Снимок экрана с кнопкой 'Add file'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step6">Шаг 6. Выберите существующий документ.</strong></p>
+                    <p data-translate="procedura-step6-desc">В открывшемся окне выберите вкладку <strong>"Documents"</strong> (Документы), чтобы выбрать уже загруженный файл.</p>
+                    <img src="image/9-Procedura/6.png" alt="Снимок экрана с окном медиатеки" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step7">Шаг 7. Загрузите новый файл.</strong></p>
+                    <p data-translate="procedura-step7-desc">Если вам нужен новый файл, перейдите во вкладку <strong>"Upload files"</strong> (Загрузить файлы) и загрузите его.</p>
+                    <img src="image/9-Procedura/7.png" alt="Снимок экрана с вкладкой 'Upload files'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step8">Шаг 8. Выберите файл.</strong></p>
+                    <p data-translate="procedura-step8-desc">После загрузки найдите ваш файл в списке, выберите его и нажмите <strong>"Select"</strong> (Выбрать).</p>
+                    <img src="image/9-Procedura/8.png" alt="Снимок экрана с выбранным файлом в медиатеке" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step9">Шаг 9. Опубликуйте документ.</strong></p>
+                    <p data-translate="procedura-step9-desc">Убедившись, что файл добавлен, нажмите кнопку <strong>"Publish"</strong> (Опубликовать).</p>
+                    <img src="image/9-Procedura/9.png" alt="Снимок экрана с добавленным файлом и кнопкой 'Publish'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="procedura-step10">Шаг 10. Проверьте список.</strong></p>
+                    <p data-translate="procedura-step10-desc">После публикации вы должны увидеть новый документ в общем списке.</p>
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="investmente-title">10. Другие инструменты |Investmente|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="investmente-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="investmente-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="investmente-step1-desc">Чтобы изменить контент этой секции, зайдите в административную панель и перейдите на страницу <strong>"Home"</strong>.</p>
+                    <img src="image/10-Investmente/1.png" alt="Снимок экрана со списком страниц, включая Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="investmente-step2">Шаг 2. Выберите "Investment tool - butane".</strong></p>
+                    <p data-translate="investmente-step2-desc">На странице <strong>"Home"</strong> найдите и разверните блок <strong>"Investment tools - Butane"</strong> (Инструменты инвестирования - Бутан), чтобы изменить данные.</p>
+                    <img src="image/10-Investmente/2.png" alt="Снимок экрана со списком блоков на странице Home, где выделен 'Investment tools - Butane'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="investmente-step3">Шаг 3. Измените контент и ссылки.</strong></p>
+                    <p data-translate="investmente-step3-desc">Измените необходимый контент, а также ссылки, по которым будут переходить кнопки.</p>
+                    <img src="image/10-Investmente/3.png" alt="Снимок экрана с полями для изменения и кнопкой 'Save'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="investmente-step4">Шаг 4. Сохраните изменения.</strong></p>
+                    <p data-translate="investmente-step4-desc">После внесения изменений нажмите кнопку <strong>"Save"</strong> (Сохранить), чтобы опубликовать их на сайте.</p>
+                    <img src="image/10-Investmente/4.png" alt="Снимок экрана с полями для изменения и кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="faq-title">11. Часто задаваемые вопросы |FAQ|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="faq-add-delete-change-title">Добавление/Удаление/Изменение частых вопросов</h3>
+                <div class="step">
+                    <p><strong data-translate="faq-step1">Шаг 1. Перейдите в раздел "FAQ".</strong></p>
+                    <p data-translate="faq-step1-desc">Чтобы добавить, изменить или удалить вопросы, перейдите в раздел <strong>"FAQ"</strong> в административном меню.</p>
+                    <img src="image/11-FAQ/1.png" alt="Снимок экрана с меню 'FAQ'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step2">Шаг 2. Просмотр списка вопросов.</strong></p>
+                    <p data-translate="faq-step2-desc">Вы увидите список уже существующих вопросов.</p>
+                    <img src="image/11-FAQ/2.png" alt="Снимок экрана со списком вопросов" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step3">Шаг 3. Добавьте новый вопрос.</strong></p>
+                    <p data-translate="faq-step3-desc">Чтобы добавить новый вопрос, нажмите <strong>"Adaugă întrebări nouă"</strong> (Добавить новый вопрос).</p>
+                    <img src="image/11-FAQ/3.png" alt="Снимок экрана с кнопкой 'Adaugă întrebări nouă'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step4">Шаг 4. Заполните поля.</strong></p>
+                    <p data-translate="faq-step4-desc">В поле <strong>"Title"</strong> (Название) укажите, как вопрос будет называться для вас в админке. Ниже заполните поля для вопроса и ответа, как они будут отображаться на сайте.</p>
+                    <img src="image/11-FAQ/4.png" alt="Снимок экрана с полями для заполнения вопроса и ответа" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step5">Шаг 5. Опубликуйте новый вопрос.</strong></p>
+                    <p data-translate="faq-step5-desc">После заполнения нажмите кнопку <strong>"Publish"</strong> (Опубликовать).</p>
+                    <img src="image/11-FAQ/5.png" alt="Снимок экрана с кнопкой 'Publish'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step6">Шаг 6. Изменение вопроса.</strong></p>
+                    <p data-translate="faq-step6-desc">Чтобы изменить существующий вопрос, нажмите на него в списке, измените данные и нажмите <strong>"Publish"</strong> (Опубликовать).</p>
+                    <img src="image/11-FAQ/6.png" alt="Снимок экрана с редактированием существующего вопроса" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="faq-step7">Шаг 7. Удаление вопроса.</strong></p>
+                    <p data-translate="faq-step7-desc">Чтобы удалить вопрос, вы можете либо поставить галочку напротив нужного и выбрать <strong>"Move to Trash"</strong> (Переместить в корзину) в выпадающем списке <strong>"Bulk Actions"</strong> (Массовые действия), либо навести на вопрос и нажать на красную надпись <strong>"Trash"</strong> (Корзина).</p>
+                    <img src="image/11-FAQ/7.png" alt="Снимок экрана с опцией удаления вопросов" class="step-image">
+                </div>
+            </div>
+        </details>
+        <details class="collapsible-section">
+            <summary data-translate="footer-title">12. Подвал сайта |Footer|</summary>
+            <div class="collapsible-content">
+                <h3 data-translate="footer-content-change-title">Изменение контента</h3>
+                <div class="step">
+                    <p><strong data-translate="footer-step1">Шаг 1. Перейдите на страницу Home.</strong></p>
+                    <p data-translate="footer-step1-desc">Чтобы изменить контент подвала, зайдите в административную панель и перейдите на страницу <strong>"Home"</strong>.</p>
+                    <img src="image/12-Footer/1.png" alt="Снимок экрана со списком страниц, включая Home" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="footer-step2">Шаг 2. Выберите "Footer Settings".</strong></p>
+                    <p data-translate="footer-step2-desc">На странице <strong>"Home"</strong> найдите и разверните блок <strong>"Footer Settings"</strong> (Настройки подвала).</p>
+                    <img src="image/12-Footer/2.png" alt="Снимок экрана со списком блоков на странице Home, где выделен 'Footer Settings'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="footer-step3">Шаг 3. Измените данные.</strong></p>
+                    <p data-translate="footer-step3-desc">Измените данные на нужные вам.</p>
+                    <img src="image/12-Footer/3.png" alt="Снимок экрана с полями для изменения и кнопкой 'Save'" class="step-image">
+                </div>
+                <div class="step">
+                    <p><strong data-translate="footer-step4">Шаг 4. Сохраните изменения.</strong></p>
+                    <p data-translate="footer-step4-desc">После внесения изменений, сохраните их, чтобы опубликовать на сайте.</p>
+                    <img src="image/12-Footer/4.png" alt="Снимок экрана с полями для изменения и кнопкой 'Save'" class="step-image">
+                </div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div id="developer-manual" class="content-container developer-guide">
+    <div class="container">
+        <h1 data-translate="developer-title">Руководство для разработчика</h1>
+        <p data-translate="developer-intro" style="color: #007bff; text-align: center;"><strong>Это проект MDED. Ниже инструкция, как развернуть его на другом хостинге.</strong></p>
+        <h2 data-translate="section-1-title">1. Требования к серверу</h2>
+        <ul>
+            <li data-translate="req-1">PHP 8.1+</li>
+            <li data-translate="req-2">MySQL / MariaDB</li>
+            <li data-translate="req-3">Apache или Nginx</li>
+            <li data-translate="req-4">phpMyAdmin или доступ к MySQL</li>
+        </ul>
+        
+        <h2 data-translate="section-2-title">2. Файлы проекта</h2>
+        <p data-translate="project-files-details">1. Залей папку <code>htdocs</code> на сервер в директорию сайта (например: /var/www/html/ или в папку для домена).</p>
+        
+        <h2 data-translate="section-3-title">3. База данных</h2>
+        <ol>
+            <li data-translate="db-step-1">Зайди в phpMyAdmin.</li>
+            <li data-translate="db-step-2">В существующей базе данных выбери «Импорт».</li>
+            <li data-translate="db-step-3">Загрузи файл <code>dump.sql</code> (мой экспорт).</li>
+            <li data-translate="db-step-4">В базе появятся таблицы проекта.</li>
+        </ol>
+        
+        <h2 data-translate="section-4-title">4. Конфигурация</h2>
+        <ol>
+            <li data-translate="config-step-1">Найди файл конфигурации <code>wp-config.php</code>.</li>
+            <li data-translate="config-step-2">Пропиши правильные данные для подключения к базе:
+                <ul>
+                    <li data-translate="config-list-1"><code>DB_NAME</code> = имя твоей базы (уже существующей)</li>
+                    <li data-translate="config-list-2"><code>DB_USER</code> = пользователь</li>
+                    <li data-translate="config-list-3"><code>DB_PASSWORD</code> = пароль</li>
+                    <li data-translate="config-list-4"><code>DB_HOST</code> = адрес у хостинга</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h2 data-translate="section-5-title">5. Домен (опционально)</h2>
+        <ol>
+            <li data-translate="domain-step-1">Привяжи домен к папке <code>htdocs</code>.</li>
+            <li data-translate="domain-step-2">Если сайт «цепляется» к старому адресу, обнови ссылки (например, через таблицу wp_options: <code>siteurl</code> и <code>home</code>).</li>
+        </ol>
+        
+        <h2 data-translate="section-6-title">6. Плагины</h2>
+        <p data-translate="plugins-details">1. Удостоверьтесь, что вы активировали следующие плагины:</p>
+        <ul>
+            <li>Advanced Custom Fields</li>
+            <li>Yoast SEO</li>
+            <li>ACF Content Analysis for Yoast SEO</li>
+            <li>Polylang</li>
+            <li>TailPress</li>
+        </ul>
+        
+        <h2 data-translate="section-7-title">7. Тема</h2>
+        <p data-translate="theme-details">1. Активируйте тему MDED (фото синий фон белые буквы)</p>
+        
+        <h2 data-translate="section-8-title">8. Готово 🎉</h2>
+        <p data-translate="ready-details">После этих шагов сайт MDED должен активироваться для использования.</p>
+    </div>
+</div>
+
+<script>
+    const translations = {
+        ru: {
+            "page-title": "Справочник по управлению и разработке сайта MDED",
+            "main-title": "Справочник по управлению и разработке сайта MDED",
+            "admin-button": "Инструкция для Администратора",
+            "developer-button": "Руководство для Разработчика",
+            "admin-title": "Инструкция по управлению сайтом \"MDED\"",
+            "admin-intro": "Это руководство поможет вам вносить изменения в структуру и контент вашего сайта.",
+
+            "page-title-admin": "Инструкция по управлению сайтом \"MDED\"",
+            "page-subtitle": "Это руководство поможет вам вносить изменения в структуру и контент вашего сайта!",
+
+            "nav-title": "1. Управление меню и навигацией |Nav|",
+            "nav-intro": "Навигационное меню позволяет пользователям быстро переходить к ключевым разделам сайта. Следующая инструкция объясняет, как добавить новую ссылку в основное меню.",
+            "nav-note-title": "Важное замечание:",
+            "nav-note-p1": "В этом меню можно добавить два типа ссылок:",
+            "nav-link-type1": "Обычная ссылка",
+            "nav-link-type1-desc": "на внешнюю или внутреннюю страницу.",
+            "nav-link-type2": "Якорная ссылка",
+            "nav-link-type2-desc": "на существующий раздел на главной странице. Для этого программист должен предварительно добавить уникальный <code>id</code> к нужному блоку. Например, для блока \"FAQ\" <code>id</code> может быть <code>#faq</code>, и именно его нужно будет указать при добавлении ссылки.",
+            "nav-add-title": "Как добавить новую ссылку в меню",
+            "nav-step1": "Шаг 1. Откройте настройки кастомизации.",
+            "nav-step1-desc": "На главной странице сайта нажмите на кнопку <strong>\"Customize\"</strong> (Кастомизировать).",
+            "nav-step2": "Шаг 2. Перейдите в раздел \"Menus\".",
+            "nav-step2-desc": "В боковом меню выберите пункт <strong>\"Menus\"</strong> (Меню).",
+            "nav-step3": "Шаг 3. Выберите \"Main Menu\".",
+            "nav-step3-desc": "Выберите <strong>\"Main Menu\"</strong> (Главное меню) для редактирования.",
+            "nav-step4": "Шаг 4. Добавьте новый элемент.",
+            "nav-step4-desc": "В открывшемся списке текущих пунктов меню нажмите кнопку <strong>\"Add Items\"</strong> (Добавить элементы).",
+            "nav-step5": "Шаг 5. Выберите \"Custom Links\".",
+            "nav-step5-desc": "Нажмите на раскрывающийся блок <strong>\"Custom Links\"</strong> (Пользовательские ссылки).",
+            "nav-step6": "Шаг 6. Заполните поля.",
+            "nav-step6-desc": "В поле <strong>\"URL\"</strong> введите полный адрес страницы или якорный ID (например, <code>#my-new-section</code>). В поле <strong>\"Link Text\"</strong> введите название, которое будет отображаться в меню (например, \"Новый раздел\").",
+            "nav-step7": "Шаг 7. Опубликуйте изменения.",
+            "nav-step7-desc": "После добавления нового элемента нажмите кнопку <strong>\"Publish\"</strong> (Опубликовать) в верхней части экрана, чтобы сохранить изменения и сделать их видимыми на сайте.",
+
+
+            "hero-title": "2. Главная сеция |Hero|",
+            "hero-slide-change-title": "Смена фотографий слайда",
+            "hero-step1-1": "Шаг 1.1. Выберите пункт \"Slide-uri\".",
+            "hero-step1-1-desc": "Для смены фотографий слайдов в главной секции Hero выберите пункт <strong>\"Slide-uri\"</strong> (Слайды) в боковом меню.",
+            "hero-step1-2": "Шаг 1.2. Просмотр существующих слайдов.",
+            "hero-step1-2-desc": "Здесь вы видите уже добавленные фотографии, которые чередуются между собой на сайте в виде слайдов.",
+            "hero-step1-3": "Шаг 1.3. Добавление нового слайда.",
+            "hero-step1-3-desc": "Чтобы добавить новый слайд, нажмите кнопку <strong>\"Adaugă un slide nou\"</strong> (Добавить новый слайд).",
+            "hero-step1-4": "Шаг 1.4. Дайте название фотографии.",
+            "hero-step1-4-desc": "Дайте название новому слайду. Это поможет вам его идентифицировать в дальнейшем.",
+            "hero-step1-5": "Шаг 1.5. Нажмите \"Add Image\".",
+            "hero-step1-5-desc": "Нажмите кнопку <strong>\"Add Image\"</strong> (Добавить изображение), чтобы выбрать или загрузить фотографию.",
+            "hero-step1-6": "Шаг 1.6. Выбор существующей фотографии.",
+            "hero-step1-6-desc": "В открывшемся окне вы можете выбрать уже существующую фотографию из вашей медиатеки. Выберите нужную и нажмите <strong>\"Select\"</strong> (Выбрать).",
+            "hero-step1-7": "Шаг 1.7. Загрузка новой фотографии.",
+            "hero-step1-7-desc": "Чтобы загрузить новую фотографию, перейдите во вкладку <strong>\"Upload files\"</strong> (Загрузить файлы). Загрузите изображение, выберите его, нажмите <strong>\"Select\"</strong>.",
+            "hero-step1-8": "Шаг 1.8. Публикация новой фотографии.",
+            "hero-step1-8-desc": "После загрузки и выбора нужной фотографии слайда нажмите <strong>\"Publish\"</strong> (Опубликовать), чтобы добавить новый слайд на сайт.",
+            "hero-delete-title": "Удаление слайдов",
+            "hero-step2-1": "Шаг 2.1. Удаление слайдов.",
+            "hero-step2-1-desc": "Чтобы удалить слайд, поставьте галочку рядом с ним, выберите <strong>\"Move to Trash\"</strong> (Переместить в корзину) в выпадающем меню и нажмите <strong>\"Apply\"</strong> (Применить).",
+            "hero-content-change-title": "Изменение контента",
+            "hero-step3-1": "Шаг 3.1. Перейдите на страницу Home.",
+            "hero-step3-1-desc": "Для изменения контента главной секции Hero перейдите на страницу <strong>\"Home\"</strong> (Главная).",
+            "hero-step3-2": "Шаг 3.2. Откройте Hero Section.",
+            "hero-step3-2-desc": "Найдите и разверните секцию <strong>\"Hero Section\"</strong>, чтобы увидеть поля для изменения текста.",
+            "hero-step3-3": "Шаг 3.3. Сохраните изменения.",
+            "hero-step3-3-desc": "После внесения изменений в текст нажмите кнопку <strong>\"Save\"</strong> (Сохранить) в правом верхнем углу, чтобы применить их на сайте.",
+
+            "about-title": "3. О нас |Despre|",
+            "about-content-change-title": "Изменение контента",
+            "about-step1": "Шаг 1. Перейдите на страницу Home.",
+            "about-step1-desc": "Чтобы изменить контент в этой секции, так же, как и для секции Hero, зайдите на страницу <strong>\"Home\"</strong> (Главная).",
+            "about-step2": "Шаг 2. Найдите секцию \"Scopul programului\".",
+            "about-step2-desc": "Найдите раздел <strong>\"Scopul programului\"</strong> (О программе) и измените контент в полях. После этого нажмите <strong>\"Save\"</strong> (Сохранить) в правом верхнем углу.",
+            "about-manage-items-title": "Управление пунктами",
+            "about-step3": "Шаг 3. Зайдите в ACF.",
+            "about-step3-desc": "Если вы хотите добавить или удалить пункт, зайдите в раздел <strong>\"ACF\"</strong> в боковом меню.",
+            "about-step4": "Шаг 4. Выберите \"Scopul programului\".",
+            "about-step4-desc": "Выберите <strong>\"Scopul programului\"</strong> из списка.",
+            "about-step5": "Шаг 5. Добавление или удаление пунктов.",
+            "about-step5-desc": "Здесь вы можете добавить новый пункт <strong>\"contribuind\"</strong> или удалить существующий.",
+            "about-step6": "Шаг 6. Следите за нумерацией.",
+            "about-step6-desc": "Обязательно учитывайте порядок по цифрам в конце названия поля.",
+            "about-step7": "Шаг 7. Пример правильного заполнения.",
+            "about-step7-desc": "Вот пример, как правильно и куда писать `contribuind`.",
+            "about-step8": "Шаг 8. Добавление или удаление.",
+            "about-step8-desc": "Нажмите <strong>\"Add Field\"</strong> (Добавить поле), чтобы добавить новый `contribuind`, или <strong>\"Delete\"</strong> (Удалить), чтобы удалить существующий.",
+            "about-step9": "Шаг 9. Сохранение изменений.",
+            "about-step9-desc": "После добавления нового поля вам нужно заполнить его значением и нажать <strong>\"Save Changes\"</strong> (Сохранить изменения), чтобы изменения применились на сайте.",
+            "about-step10": "Шаг 10. Изменения новых пунктов.",
+            "about-step10-desc": "После того как вы добавили новый пункт через <strong>ACF</strong> заходим в <strong>\"Home\"</strong> выбираем наше меню <strong>Scopul programului</strong> и видим в конце наш новый пункт. Вводим наше значения для нашего пункта нового и нажимаем <strong>\"Save\"</strong> (Сохранить изменения), чтобы изменения применились на сайте.",
+
+            "succes-title": "4. История успеха |Succes|",
+            "succes-add-block-title": "Добавление нового блока истории",
+            "succes-step1": "Шаг 1. Перейдите в \"Povești de succes\".",
+            "succes-step1-desc": "Чтобы добавить новый блок истории, зайдите в административную панель и выберите пункт <strong>\"Povești de succes\"</strong> (Истории успеха).",
+            "succes-step2": "Шаг 2. Просмотр существующих историй.",
+            "succes-step2-desc": "В этом окне вы увидите список уже существующих историй успеха.",
+            "succes-step3": "Шаг 3. Нажмите \"Adaugă o poveste nouă\".",
+            "succes-step3-desc": "Нажмите кнопку <strong>\"Adaugă o poveste nouă\"</strong> (Добавить новую историю).",
+            "succes-step4": "Шаг 4. Дайте название блоку.",
+            "succes-step4-desc": "Обязательно дайте название новому блоку в поле <strong>\"Tittle\"</strong>. Это название будет отображаться для вас в списке историй, например, <strong>\"Example SRL\"</strong>.",
+            "succes-step5": "Шаг 5. Заполните контент.",
+            "succes-step5-desc": "Заполните поля контента блока, которые расписаны ниже.",
+            "succes-step6": "Шаг 6. Нажмите \"Add Media\".",
+            "succes-step6-desc": "Для добавления фотографий нажмите кнопку <strong>\"Add Media\"</strong> (Добавить медиа).",
+            "succes-step7": "Шаг 7. Создайте галерею и выберите фото.",
+            "succes-step7-desc": "Выберите опцию <strong>\"Media Library\"</strong> и выберите фотографии, которые хотите добавить. <br> Если хотите сразу несколько добавить то зажмите кнопку <strong>\"Shift\"</strong> и нажимайте по фотографиям.",
+            "succes-step8": "Шаг 8. Загрузите новые фото (если нужно).",
+            "succes-step8-desc": "Если нужных фотографий нет, сначала загрузите их, а затем создайте галерею. Это очень важный шаг.",
+            "succes-step9-10": "Шаг 9-10. Вставка галереи.",
+            "succes-step9-10-desc": "Нажмите <strong>\"Create a new Gallery\"</strong> (Создать новую галерею), затем <strong>\"Insert Gallery\"</strong> (Вставить галерею).",
+            "succes-step11": "Шаг 11. Проверка в текстовом режиме.",
+            "succes-step11-desc": "При нажатии на вкладку <strong>\"Text\"</strong>, вы должны увидеть код фотографии, например, <code>img...</code>. Никакого другого текста рядом не должно быть.",
+            "succes-step12": "Шаг 12. Завершите заполнение и опубликуйте.",
+            "succes-step12-desc": "Заполните весь контент до конца и нажмите кнопку <strong>\"Publish\"</strong> (Опубликовать).",
+            "succes-step13": "Шаг 13. Убедитесь, что блок добавлен.",
+            "succes-step13-desc": "После публикации вы должны увидеть новый блок в списке историй.",
+
+            "eligibile-title": "5. Приемлемые сектора |Sectoare eligibile|",
+            "eligibile-content-change-title": "Изменение контента",
+            "eligibile-step1": "Шаг 1. Перейдите на страницу Home.",
+            "eligibile-step1-desc": "Чтобы изменить контент этой секции, зайдите в административную панель и выберите страницу <strong>\"Home\"</strong>.",
+            "eligibile-step2": "Шаг 2. Выберите \"Setări tabel granturi\".",
+            "eligibile-step2-desc": "На странице <strong>\"Home\"</strong> найдите и разверните блок <strong>\"Setări tabel granturi\"</strong> (Настройки таблицы грантов).",
+            "eligibile-step3": "Шаг 3. Измените контент.",
+            "eligibile-step3-desc": "Измените необходимый контент в полях, которые вам нужно отредактировать.",
+            "eligibile-step4": "Шаг 4. Сохраните изменения.",
+            "eligibile-step4-desc": "Нажмите кнопку <strong>\"Save\"</strong> (Сохранить) в правом верхнем углу, чтобы применить изменения на сайте.",
+
+            "sprijin-title": "6. Финансовая поддержка |Sprijin|",
+            "sprijin-content-change-title": "Изменение контента",
+            "sprijin-step1": "Шаг 1. Перейдите на страницу Home.",
+            "sprijin-step1-desc": "Чтобы внести изменения, перейдите на страницу <strong>\"Home\"</strong> из административного меню.",
+            "sprijin-step2": "Шаг 2. Выберите \"Structura suportului financiar\".",
+            "sprijin-step2-desc": "На странице <strong>\"Home\"</strong> выберите и разверните меню <strong>\"Structura Suportului Financiar\"</strong> (Структура финансовой поддержки), чтобы изменить данные.",
+            "sprijin-step3": "Шаг 3. Сохраните изменения.",
+            "sprijin-step3-desc": "После внесения изменений нажмите кнопку <strong>\"Save\"</strong> (Сохранить), чтобы опубликовать их на сайте.",
+
+            "beneficiari-title": "7. Кто может получить выгоду |Beneficiari|",
+            "beneficiari-content-change-title": "Изменение контента",
+            "beneficiari-step1": "Шаг 1. Перейдите на страницу Home.",
+            "beneficiari-step1-desc": "Чтобы изменить контент этой секции, перейдите на страницу <strong>\"Home\"</strong> из административного меню.",
+            "beneficiari-step2": "Шаг 2. Выберите \"Beneficiari\".",
+            "beneficiari-step2-desc": "На странице <strong>\"Home\"</strong> выберите и разверните блок <strong>\"Beneficiari\"</strong> (Бенефициары), чтобы изменить данные.",
+            "beneficiari-step3": "Шаг 3. Сохраните изменения.",
+            "beneficiari-step3-desc": "После внесения изменений нажмите кнопку <strong>\"Save\"</strong> (Сохранить), чтобы применить их на сайте.",
+
+            "criterii-title": "8. Критерии отбора |Criterii|",
+            "criterii-content-change-title": "Изменение контента",
+            "criterii-step1": "Шаг 1. Перейдите на страницу Home.",
+            "criterii-step1-desc": "Чтобы изменить контент этой секции, перейдите на страницу <strong>\"Home\"</strong> из административного меню.",
+            "criterii-step2": "Шаг 2. Выберите \"Criterii\".",
+            "criterii-step2-desc": "На странице <strong>\"Home\"</strong> выберите и разверните блок <strong>\"Criterii\"</strong> (Критерии), чтобы изменить данные.",
+            "criterii-step3": "Шаг 3. Сохраните изменения.",
+            "criterii-step3-desc": "После внесения изменений нажмите кнопку <strong>\"Save\"</strong> (Сохранить), чтобы опубликовать их на сайте.",
+
+            "procedura-title": "9. Процедура подачи заявки |Procedura|",
+            "procedura-add-delete-files-title": "Добавление/Удаление файлов",
+            "procedura-step1": "Шаг 1. Перейдите в раздел \"Documente\".",
+            "procedura-step1-desc": "Чтобы добавить или удалить файлы, перейдите в боковом меню в раздел <strong>\"Documente\"</strong> (Документы).",
+            "procedura-step2": "Шаг 2. Просмотр списка документов.",
+            "procedura-step2-desc": "В этом разделе вы увидите действующий список с уже добавленными документами.",
+            "procedura-step3": "Шаг 3. Нажмите \"Adaugă un document\".",
+            "procedura-step3-desc": "Чтобы добавить новый документ, нажмите кнопку <strong>\"Adaugă un document\"</strong> (Добавить документ).",
+            "procedura-step4": "Шаг 4. Укажите название документа.",
+            "procedura-step4-desc": "Напишите название документа. Оно будет отображаться только для вас. Обратите внимание, что документы отображаются в порядке очереди, поэтому для изменения порядка их придется удалить и добавить заново в нужной последовательности.",
+            "procedura-step5": "Шаг 5. Нажмите \"Add file\".",
+            "procedura-step5-desc": "После ввода названия нажмите кнопку <strong>\"Add file\"</strong> (Добавить файл).",
+            "procedura-step6": "Шаг 6. Выберите существующий документ.",
+            "procedura-step6-desc": "В открывшемся окне выберите вкладку <strong>\"Documents\"</strong> (Документы), чтобы выбрать уже загруженный файл.",
+            "procedura-step7": "Шаг 7. Загрузите новый файл.",
+            "procedura-step7-desc": "Если вам нужен новый файл, перейдите во вкладку <strong>\"Upload files\"</strong> (Загрузить файлы) и загрузите его.",
+            "procedura-step8": "Шаг 8. Выберите файл.",
+            "procedura-step8-desc": "После загрузки найдите ваш файл в списке, выберите его и нажмите <strong>\"Select\"</strong> (Выбрать).",
+            "procedura-step9": "Шаг 9. Опубликуйте документ.",
+            "procedura-step9-desc": "Убедившись, что файл добавлен, нажмите кнопку <strong>\"Publish\"</strong> (Опубликовать).",
+            "procedura-step10": "Шаг 10. Проверьте список.",
+            "procedura-step10-desc": "После публикации вы должны увидеть новый документ в общем списке.",
+
+            "investmente-title": "10. Другие инструменты |Investmente|",
+            "investmente-content-change-title": "Изменение контента",
+            "investmente-step1": "Шаг 1. Перейдите на страницу Home.",
+            "investmente-step1-desc": "Чтобы изменить контент этой секции, зайдите в административную панель и перейдите на страницу <strong>\"Home\"</strong>.",
+            "investmente-step2": "Шаг 2. Выберите \"Investment tool - butane\".",
+            "investmente-step2-desc": "На странице <strong>\"Home\"</strong> найдите и разверните блок <strong>\"Investment tools - Butane\"</strong> (Инструменты инвестирования - Бутан), чтобы изменить данные.",
+            "investmente-step3": "Шаг 3. Измените контент и ссылки.",
+            "investmente-step3-desc": "Измените необходимый контент, а также ссылки, по которым будут переходить кнопки.",
+            "investmente-step4": "Шаг 4. Сохраните изменения.",
+            "investmente-step4-desc": "После внесения изменений нажмите кнопку <strong>\"Save\"</strong> (Сохранить), чтобы опубликовать их на сайте.",
+
+            "faq-title": "11. Часто задаваемые вопросы |FAQ|",
+            "faq-add-delete-change-title": "Добавление/Удаление/Изменение частых вопросов",
+            "faq-step1": "Шаг 1. Перейдите в раздел \"FAQ\".",
+            "faq-step1-desc": "Чтобы добавить, изменить или удалить вопросы, перейдите в раздел <strong>\"FAQ\"</strong> в административном меню.",
+            "faq-step2": "Шаг 2. Просмотр списка вопросов.",
+            "faq-step2-desc": "Вы увидите список уже существующих вопросов.",
+            "faq-step3": "Шаг 3. Добавьте новый вопрос.",
+            "faq-step3-desc": "Чтобы добавить новый вопрос, нажмите <strong>\"Adaugă întrebări nouă\"</strong> (Добавить новый вопрос).",
+            "faq-step4": "Шаг 4. Заполните поля.",
+            "faq-step4-desc": "В поле <strong>\"Title\"</strong> (Название) укажите, как вопрос будет называться для вас в админке. Ниже заполните поля для вопроса и ответа, как они будут отображаться на сайте.",
+            "faq-step5": "Шаг 5. Опубликуйте новый вопрос.",
+            "faq-step5-desc": "После заполнения нажмите кнопку <strong>\"Publish\"</strong> (Опубликовать).",
+            "faq-step6": "Шаг 6. Изменение вопроса.",
+            "faq-step6-desc": "Чтобы изменить существующий вопрос, нажмите на него в списке, измените данные и нажмите <strong>\"Publish\"</strong> (Опубликовать).",
+            "faq-step7": "Шаг 7. Удаление вопроса.",
+            "faq-step7-desc": "Чтобы удалить вопрос, вы можете либо поставить галочку напротив нужного и выбрать <strong>\"Move to Trash\"</strong> (Переместить в корзину) в выпадающем списке <strong>\"Bulk Actions\"</strong> (Массовые действия), либо навести на вопрос и нажать на красную надпись <strong>\"Trash\"</strong> (Корзина).",
+
+            "footer-title": "12. Подвал сайта |Footer|",
+            "footer-content-change-title": "Изменение контента",
+            "footer-step1": "Шаг 1. Перейдите на страницу Home.",
+            "footer-step1-desc": "Чтобы изменить контент подвала, зайдите в административную панель и перейдите на страницу <strong>\"Home\"</strong>.",
+            "footer-step2": "Шаг 2. Выберите \"Footer Settings\".",
+            "footer-step2-desc": "На странице <strong>\"Home\"</strong> найдите и разверните блок <strong>\"Footer Settings\"</strong> (Настройки подвала).",
+            "footer-step3": "Шаг 3. Измените данные.",
+            "footer-step3-desc": "Измените данные на нужные вам.",
+            "footer-step4": "Шаг 4. Сохраните изменения.",
+            "footer-step4-desc": "После внесения изменений, сохраните их, чтобы опубликовать на сайте.",
+
+
+            "developer-title": "Руководство для разработчика",
+            "developer-intro": "Это проект MDED. Ниже инструкция, как развернуть его на другом хостинге.",
+            "section-1-title": "1. Требования к серверу",
+            "req-1": "PHP 8.1+",
+            "req-2": "MySQL / MariaDB",
+            "req-3": "Apache или Nginx",
+            "req-4": "phpMyAdmin или доступ к MySQL",
+            "section-2-title": "2. Файлы проекта",
+            "project-files-details": "1. Залей папку <code>htdocs</code> на сервер в директорию сайта (например: /var/www/html/ или в папку для домена).",
+            "section-3-title": "3. База данных",
+            "db-step-1": "Зайди в phpMyAdmin.",
+            "db-step-2": "В существующей базе данных выбери «Импорт».",
+            "db-step-3": "Загрузи файл <code>dump.sql</code> (мой экспорт).",
+            "db-step-4": "В базе появятся таблицы проекта.",
+            "section-4-title": "4. Конфигурация",
+            "config-step-1": "Найди файл конфигурации <code>wp-config.php</code>.",
+            "config-step-2": "Пропиши правильные данные для подключения к базе:",
+            "config-list-1": "<code>DB_NAME</code> = имя твоей базы (уже существующей)",
+            "config-list-2": "<code>DB_USER</code> = пользователь",
+            "config-list-3": "<code>DB_PASSWORD</code> = пароль",
+            "config-list-4": "<code>DB_HOST</code> = адрес у хостинга",
+            "section-5-title": "5. Домен (опционально)",
+            "domain-step-1": "Привяжи домен к папке <code>htdocs</code>.",
+            "domain-step-2": "Если сайт «цепляется» к старому адресу, обнови ссылки (например, через таблицу wp_options: <code>siteurl</code> и <code>home</code>).",
+            "section-6-title": "6. Плагины",
+            "plugins-details": "1. Удостоверьтесь, что вы активировали следующие плагины:",
+            "section-7-title": "7. Тема",
+            "theme-details": "1. Активируйте тему MDED (фото синий фон белые буквы)",
+            "section-8-title": "8. Готово 🎉",
+            "ready-details": "После этих шагов сайт MDED должен активироваться для использования."
+        },
+        ro: {
+            "page-title": "Ghid de utilizare și dezvoltare site web MDED",
+            "main-title": "Ghid de utilizare și dezvoltare site web MDED",
+            "admin-button": "Instrucțiuni pentru Administrator",
+            "developer-button": "Ghid pentru Dezvoltator",
+            "admin-title": "Instrucțiuni pentru administrarea site-ului \"MDED\"",
+            "admin-intro": "Acest ghid vă va ajuta să faceți modificări la structura și conținutul site-ului dumneavoastră.",
+
+            "page-title-admin": "Instrucțiuni pentru administrarea site-ului \"MDED\"",
+            "page-subtitle": "Acest ghid vă va ajuta să faceți modificări în structura și conținutul site-ului dumneavoastră!",
+
+
+            "nav-title": "1. Gestionarea meniului și navigării |Nav|",
+            "nav-intro": "Meniul de navigare permite utilizatorilor să acceseze rapid secțiunile cheie ale site-ului. Următoarea instrucțiune explică cum să adăugați o nouă legătură în meniul principal.",
+            "nav-note-title": "Observație importantă:",
+            "nav-note-p1": "În acest meniu pot fi adăugate două tipuri de legături:",
+            "nav-link-type1": "Legătură obișnuită",
+            "nav-link-type1-desc": "către o pagină externă sau internă.",
+            "nav-link-type2": "Legătură ancoră",
+            "nav-link-type2-desc": "către o secțiune existentă pe pagina principală. Pentru aceasta, programatorul trebuie să adauge un <code>id</code> unic la blocul dorit. De exemplu, pentru blocul \"FAQ\", <code>id</code>-ul poate fi <code>#faq</code>, și exact acesta trebuie specificat la adăugarea legăturii.",
+            "nav-add-title": "Cum să adăugați o nouă legătură în meniu",
+            "nav-step1": "Pasul 1. Deschideți setările de personalizare.",
+            "nav-step1-desc": "Pe pagina principală a site-ului, faceți clic pe butonul <strong>\"Customize\"</strong> (Personalizare).",
+            "nav-step2": "Pasul 2. Accesați secțiunea \"Menus\".",
+            "nav-step2-desc": "În meniul lateral, selectați opțiunea <strong>\"Menus\"</strong> (Meniuri).",
+            "nav-step3": "Pasul 3. Selectați \"Main Menu\".",
+            "nav-step3-desc": "Selectați <strong>\"Main Menu\"</strong> (Meniul principal) pentru editare.",
+            "nav-step4": "Pasul 4. Adăugați un element nou.",
+            "nav-step4-desc": "În lista de elemente de meniu curente, faceți clic pe butonul <strong>\"Add Items\"</strong> (Adăugați elemente).",
+            "nav-step5": "Pasul 5. Selectați \"Custom Links\".",
+            "nav-step5-desc": "Faceți clic pe blocul derulant <strong>\"Custom Links\"</strong> (Legături personalizate).",
+            "nav-step6": "Pasul 6. Completați câmpurile.",
+            "nav-step6-desc": "În câmpul <strong>\"URL\"</strong>, introduceți adresa completă a paginii sau ID-ul ancorei (de exemplu, <code>#my-new-section</code>). În câmpul <strong>\"Link Text\"</strong>, introduceți numele care va fi afișat în meniu (de exemplu, \"Secțiunea nouă\").",
+            "nav-step7": "Pasul 7. Publicați modificările.",
+            "nav-step7-desc": "După adăugarea unui element nou, faceți clic pe butonul <strong>\"Publish\"</strong> (Publicare) în partea de sus a ecranului pentru a salva modificările și a le face vizibile pe site.",
+
+            "hero-title": "2. Secțiunea principală |Hero|",
+            "hero-slide-change-title": "Schimbarea imaginilor diapozitivelor",
+            "hero-step1-1": "Pasul 1.1. Selectați opțiunea \"Slide-uri\".",
+            "hero-step1-1-desc": "Pentru a schimba imaginile diapozitivelor din secțiunea principală Hero, selectați opțiunea <strong>\"Slide-uri\"</strong> în meniul lateral.",
+            "hero-step1-2": "Pasul 1.2. Vizualizarea diapozitivelor existente.",
+            "hero-step1-2-desc": "Aici vedeți imaginile deja adăugate, care alternează pe site sub formă de diapozitive.",
+            "hero-step1-3": "Pasul 1.3. Adăugarea unui nou diapozitiv.",
+            "hero-step1-3-desc": "Pentru a adăuga un diapozitiv nou, faceți clic pe butonul <strong>\"Adaugă un slide nou\"</strong>.",
+            "hero-step1-4": "Pasul 1.4. Dați un nume imaginii.",
+            "hero-step1-4-desc": "Dați un nume noului diapozitiv. Acest lucru vă va ajuta să-l identificați ulterior.",
+            "hero-step1-5": "Pasul 1.5. Apăsați \"Add Image\".",
+            "hero-step1-5-desc": "Faceți clic pe butonul <strong>\"Add Image\"</strong> (Adăugați imagine), pentru a selecta sau a încărca o fotografie.",
+            "hero-step1-6": "Pasul 1.6. Alegerea unei fotografii existente.",
+            "hero-step1-6-desc": "În fereastra deschisă, puteți alege o fotografie existentă din biblioteca dvs. media. Selectați cea dorită și apăsați <strong>\"Select\"</strong> (Selectare).",
+            "hero-step1-7": "Pasul 1.7. Încărcarea unei noi fotografii.",
+            "hero-step1-7-desc": "Pentru a încărca o nouă fotografie, accesați fila <strong>\"Upload files\"</strong> (Încărcare fișiere). Încărcați imaginea, selectați-o, apoi apăsați <strong>\"Select\"</strong>.",
+            "hero-step1-8": "Pasul 1.8. Publicarea noii fotografii.",
+            "hero-step1-8-desc": "După încărcarea și selectarea fotografiei dorite, faceți clic pe <strong>\"Publish\"</strong> (Publicare) pentru a adăuga noul diapozitiv pe site.",
+            "hero-delete-title": "Ștergerea diapozitivelor",
+            "hero-step2-1": "Pasul 2.1. Ștergerea diapozitivelor.",
+            "hero-step2-1-desc": "Pentru a șterge un diapozitiv, bifați caseta de lângă el, selectați <strong>\"Move to Trash\"</strong> (Mutare în coș) din meniul derulant și faceți clic pe <strong>\"Apply\"</strong> (Aplică).",
+            "hero-content-change-title": "Modificarea conținutului",
+            "hero-step3-1": "Pasul 3.1. Accesați pagina Home.",
+            "hero-step3-1-desc": "Pentru a modifica conținutul secțiunii principale Hero, accesați pagina <strong>\"Home\"</strong> (Acasă).",
+            "hero-step3-2": "Pasul 3.2. Deschideți Hero Section.",
+            "hero-step3-2-desc": "Găsiți și extindeți secțiunea <strong>\"Hero Section\"</strong> pentru a vedea câmpurile de modificare a textului.",
+            "hero-step3-3": "Pasul 3.3. Salvați modificările.",
+            "hero-step3-3-desc": "După ce ați făcut modificările în text, faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) din colțul din dreapta sus pentru a le aplica pe site.",
+
+            "about-title": "3. Despre noi |Despre|",
+            "about-content-change-title": "Modificarea conținutului",
+            "about-step1": "Pasul 1. Accesați pagina Home.",
+            "about-step1-desc": "Pentru a modifica conținutul în această secțiune, la fel ca și pentru secțiunea Hero, accesați pagina <strong>\"Home\"</strong> (Acasă).",
+            "about-step2": "Pasul 2. Găsiți secțiunea \"Scopul programului\".",
+            "about-step2-desc": "Găsiți secțiunea <strong>\"Scopul programului\"</strong> (Scopul programului) și modificați conținutul din câmpuri. Apoi, faceți clic pe <strong>\"Save\"</strong> (Salvare) în colțul din dreapta sus.",
+            "about-manage-items-title": "Gestionarea punctelor",
+            "about-step3": "Pasul 3. Accesați ACF.",
+            "about-step3-desc": "Dacă doriți să adăugați sau să ștergeți un punct, accesați secțiunea <strong>\"ACF\"</strong> din meniul lateral.",
+            "about-step4": "Pasul 4. Selectați \"Scopul programului\".",
+            "about-step4-desc": "Selectați <strong>\"Scopul programului\"</strong> din listă.",
+            "about-step5": "Pasul 5. Adăugarea sau ștergerea punctelor.",
+            "about-step5-desc": "Aici puteți adăuga un nou punct <strong>\"contribuind\"</strong> sau șterge unul existent.",
+            "about-step6": "Pasul 6. Urmăriți numerotarea.",
+            "about-step6-desc": "Asigurați-vă că respectați ordinea numerelor la sfârșitul numelui câmpului.",
+            "about-step7": "Pasul 7. Exemplu de completare corectă.",
+            "about-step7-desc": "Iată un exemplu despre cum și unde să scrieți corect `contribuind`.",
+            "about-step8": "Pasul 8. Adăugare sau ștergere.",
+            "about-step8-desc": "Faceți clic pe <strong>\"Add Field\"</strong> (Adaugă câmp) pentru a adăuga un nou `contribuind`, sau <strong>\"Delete\"</strong> (Șterge) pentru a-l șterge pe cel existent.",
+            "about-step9": "Pasul 9. Salvarea modificărilor.",
+            "about-step9-desc": "După ce ați adăugat un nou câmp, trebuie să-l completați cu o valoare și să faceți clic pe <strong>\"Save Changes\"</strong> (Salvare modificări) pentru a aplica modificările pe site.",
+            "about-step10": "Pasul 10. Modificarea punctelor noi.",
+            "about-step10-desc": "După ce ați adăugat un nou punct prin <strong>ACF</strong>, accesați <strong>\"Home\"</strong>, alegeți meniul <strong>Scopul programului</strong> și veți vedea noul dvs. punct la sfârșit. Introduceți valorile pentru noul dvs. punct și faceți clic pe <strong>\"Save\"</strong> (Salvare modificări) pentru a aplica modificările pe site.",
+
+            "succes-title": "4. Povești de succes |Succes|",
+            "succes-add-block-title": "Adăugarea unui nou bloc de poveste",
+            "succes-step1": "Pasul 1. Accesați \"Povești de succes\".",
+            "succes-step1-desc": "Pentru a adăuga un nou bloc de poveste, accesați panoul de administrare și selectați <strong>\"Povești de succes\"</strong> (Povești de succes).",
+            "succes-step2": "Pasul 2. Vizualizarea poveștilor existente.",
+            "succes-step2-desc": "În această fereastră veți vedea lista de povești de succes existente.",
+            "succes-step3": "Pasul 3. Apăsați \"Adaugă o poveste nouă\".",
+            "succes-step3-desc": "Faceți clic pe butonul <strong>\"Adaugă o poveste nouă\"</strong> (Adaugă o poveste nouă).",
+            "succes-step4": "Pasul 4. Dați un nume blocului.",
+            "succes-step4-desc": "Asigurați-vă că dați un nume noului bloc în câmpul <strong>\"Tittle\"</strong>. Acest nume va fi afișat pentru dvs. în lista de povești, de exemplu, <strong>\"Example SRL\"</strong>.",
+            "succes-step5": "Pasul 5. Completați conținutul.",
+            "succes-step5-desc": "Completați câmpurile de conținut ale blocului, care sunt descrise mai jos.",
+            "succes-step6": "Pasul 6. Apăsați \"Add Media\".",
+            "succes-step6-desc": "Pentru a adăuga fotografii, faceți clic pe butonul <strong>\"Add Media\"</strong> (Adaugă media).",
+            "succes-step7": "Pasul 7. Creați o galerie și selectați fotografii.",
+            "succes-step7-desc": "Selectați opțiunea <strong>\"Media Library\"</strong> și selectați fotografiile pe care doriți să le adăugați. <br> Dacă doriți să adăugați ceva imediat, țineți apăsat butonul <strong>\„Shift\”</strong> și faceți clic pe fotografii.",
+            "succes-step8": "Pasul 8. Încărcați fotografii noi (dacă este necesar).",
+            "succes-step8-desc": "Dacă nu aveți fotografiile necesare, mai întâi încărcați-le, apoi creați galeria. Acesta este un pas foarte important.",
+            "succes-step9-10": "Pasul 9-10. Inserarea galeriei.",
+            "succes-step9-10-desc": "Faceți clic pe <strong>\"Create a new Gallery\"</strong> (Crează o nouă galerie), apoi pe <strong>\"Insert Gallery\"</strong> (Inserează galerie).",
+            "succes-step11": "Pasul 11. Verificarea în modul text.",
+            "succes-step11-desc": "Când faceți clic pe fila <strong>\"Text\"</strong>, ar trebui să vedeți codul galeriei, de exemplu, <code>[gallery ids=\"706,709,708,704\"]</code>. Nu ar trebui să fie niciun alt text lângă.",
+            "succes-step12": "Pasul 12. Finalizați completarea și publicați.",
+            "succes-step12-desc": "Completați tot conținutul până la sfârșit și faceți clic pe butonul <strong>\"Publish\"</strong> (Publică).",
+            "succes-step13": "Pasul 13. Asigurați-vă că blocul a fost adăugat.",
+            "succes-step13-desc": "După publicare, ar trebui să vedeți noul bloc în lista de povești.",
+
+            "eligibile-title": "5. Suport financiar pe regiuni |Sectoare eligibile|",
+            "eligibile-content-change-title": "Modificarea conținutului",
+            "eligibile-step1": "Pasul 1. Accesați pagina Home.",
+            "eligibile-step1-desc": "Pentru a modifica conținutul acestei secțiuni, accesați panoul de administrare și selectați pagina <strong>\"Home\"</strong> (Acasă).",
+            "eligibile-step2": "Pasul 2. Selectați \"Setări tabel granturi\".",
+            "eligibile-step2-desc": "Pe pagina <strong>\"Home\"</strong>, găsiți și extindeți blocul <strong>\"Setări tabel granturi\"</strong> (Setări tabel granturi).",
+            "eligibile-step3": "Pasul 3. Modificați conținutul.",
+            "eligibile-step3-desc": "Modificați conținutul necesar în câmpurile pe care trebuie să le editați.",
+            "eligibile-step4": "Pasul 4. Salvați modificările.",
+            "eligibile-step4-desc": "Faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) în colțul din dreapta sus pentru a aplica modificările pe site.",
+
+
+            "sprijin-title": "6. Suport financiar |Sprijin|",
+            "sprijin-content-change-title": "Modificarea conținutului",
+            "sprijin-step1": "Pasul 1. Accesați pagina Home.",
+            "sprijin-step1-desc": "Pentru a face modificări, accesați pagina <strong>\"Home\"</strong> din meniul de administrare.",
+            "sprijin-step2": "Pasul 2. Selectați \"Structura suportului financiar\".",
+            "sprijin-step2-desc": "Pe pagina <strong>\"Home\"</strong>, selectați și extindeți meniul <strong>\"Structura Suportului Financiar\"</strong> (Structura suportului financiar) pentru a modifica datele.",
+            "sprijin-step3": "Pasul 3. Salvați modificările.",
+            "sprijin-step3-desc": "După ce ați făcut modificările, faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) pentru a le publica pe site.",
+
+            "beneficiari-title": "7. Cine poate beneficia |Beneficiari|",
+            "beneficiari-content-change-title": "Modificarea conținutului",
+            "beneficiari-step1": "Pasul 1. Accesați pagina Home.",
+            "beneficiari-step1-desc": "Pentru a modifica conținutul acestei secțiuni, accesați pagina <strong>\"Home\"</strong> din meniul de administrare.",
+            "beneficiari-step2": "Pasul 2. Selectați \"Beneficiari\".",
+            "beneficiari-step2-desc": "Pe pagina <strong>\"Home\"</strong>, selectați și extindeți blocul <strong>\"Beneficiari\"</strong> (Beneficiari), pentru a modifica datele.",
+            "beneficiari-step3": "Pasul 3. Salvați modificările.",
+            "beneficiari-step3-desc": "După ce ați făcut modificările, faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) pentru a le aplica pe site.",
+
+            "criterii-title": "8. Criterii de selecție |Criterii|",
+            "criterii-content-change-title": "Modificarea conținutului",
+            "criterii-step1": "Pasul 1. Accesați pagina Home.",
+            "criterii-step1-desc": "Pentru a modifica conținutul acestei secțiuni, accesați pagina <strong>\"Home\"</strong> din meniul de administrare.",
+            "criterii-step2": "Pasul 2. Selectați \"Criterii\".",
+            "criterii-step2-desc": "Pe pagina <strong>\"Home\"</strong>, selectați și extindeți blocul <strong>\"Criterii\"</strong> (Criterii), pentru a modifica datele.",
+            "criterii-step3": "Pasul 3. Salvați modificările.",
+            "criterii-step3-desc": "După ce ați făcut modificările, faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) pentru a le publica pe site.",
+
+            "procedura-title": "9. Procedura de aplicare |Procedura|",
+            "procedura-add-delete-files-title": "Adăugarea/Ștergerea fișierelor",
+            "procedura-step1": "Pasul 1. Accesați secțiunea \"Documente\".",
+            "procedura-step1-desc": "Pentru a adăuga sau șterge fișiere, accesați secțiunea <strong>\"Documente\"</strong> (Documente) din meniul lateral.",
+            "procedura-step2": "Pasul 2. Vizualizarea listei de documente.",
+            "procedura-step2-desc": "În această secțiune veți vedea lista curentă cu documentele deja adăugate.",
+            "procedura-step3": "Pasul 3. Apăsați \"Adaugă un document\".",
+            "procedura-step3-desc": "Pentru a adăuga un document nou, faceți clic pe butonul <strong>\"Adaugă un document\"</strong> (Adaugă un document).",
+            "procedura-step4": "Pasul 4. Specificați numele documentului.",
+            "procedura-step4-desc": "Introduceți numele documentului. Acesta va fi afișat doar pentru dumneavoastră. Rețineți că documentele sunt afișate în ordinea în care au fost adăugate, așa că pentru a le schimba ordinea, va trebui să le ștergeți și să le adăugați din nou în ordinea dorită.",
+            "procedura-step5": "Pasul 5. Apăsați \"Add file\".",
+            "procedura-step5-desc": "După ce ați introdus numele, faceți clic pe butonul <strong>\"Add file\"</strong> (Adaugă fișier).",
+            "procedura-step6": "Pasul 6. Selectați un document existent.",
+            "procedura-step6-desc": "În fereastra care se deschide, selectați fila <strong>\"Documents\"</strong> (Documente) pentru a alege un fișier deja încărcat.",
+            "procedura-step7": "Pasul 7. Încărcați un fișier nou.",
+            "procedura-step7-desc": "Dacă aveți nevoie de un fișier nou, accesați fila <strong>\"Upload files\"</strong> (Încarcă fișiere) și încărcați-l.",
+            "procedura-step8": "Pasul 8. Selectați fișierul.",
+            "procedura-step8-desc": "După încărcare, găsiți fișierul în listă, selectați-l și apăsați <strong>\"Select\"</strong> (Selectează).",
+            "procedura-step9": "Pasul 9. Publicați documentul.",
+            "procedura-step9-desc": "După ce v-ați asigurat că fișierul a fost adăugat, faceți clic pe butonul <strong>\"Publish\"</strong> (Publică).",
+            "procedura-step10": "Pasul 10. Verificați lista.",
+            "procedura-step10-desc": "După publicare, ar trebui să vedeți noul document în lista generală.",
+
+            "investmente-title": "10. Alte instrumente |Investmente|",
+            "investmente-content-change-title": "Modificarea conținutului",
+            "investmente-step1": "Pasul 1. Accesați pagina Home.",
+            "investmente-step1-desc": "Pentru a modifica conținutul acestei secțiuni, accesați panoul de administrare și navigați la pagina <strong>\"Home\"</strong> (Acasă).",
+            "investmente-step2": "Pasul 2. Selectați \"Investment tool - butane\".",
+            "investmente-step2-desc": "Pe pagina <strong>\"Home\"</strong>, găsiți și extindeți blocul <strong>\"Investment tools - Butane\"</strong> (Instrumente de investiții - Butane) pentru a modifica datele.",
+            "investmente-step3": "Pasul 3. Modificați conținutul și link-urile.",
+            "investmente-step3-desc": "Modificați conținutul necesar, precum și link-urile la care vor duce butoanele.",
+            "investmente-step4": "Pasul 4. Salvați modificările.",
+            "investmente-step4-desc": "După ce ați făcut modificările, faceți clic pe butonul <strong>\"Save\"</strong> (Salvare) pentru a le publica pe site.",
+
+            "faq-title": "11. Întrebări frecvente |FAQ|",
+            "faq-add-delete-change-title": "Adăugarea/Ștergerea/Modificarea întrebărilor frecvente",
+            "faq-step1": "Pasul 1. Accesați secțiunea \"FAQ\".",
+            "faq-step1-desc": "Pentru a adăuga, modifica sau șterge întrebări, accesați secțiunea <strong>\"FAQ\"</strong> din meniul de administrare.",
+            "faq-step2": "Pasul 2. Vizualizarea listei de întrebări.",
+            "faq-step2-desc": "Veți vedea o listă cu întrebările existente.",
+            "faq-step3": "Pasul 3. Adăugați o întrebare nouă.",
+            "faq-step3-desc": "Pentru a adăuga o întrebare nouă, faceți clic pe <strong>\"Adaugă întrebări nouă\"</strong> (Adaugă o întrebare nouă).",
+            "faq-step4": "Pasul 4. Completați câmpurile.",
+            "faq-step4-desc": "În câmpul <strong>\"Title\"</strong> (Titlu), specificați cum va fi numită întrebarea pentru dumneavoastră în panoul de administrare. Mai jos, completați câmpurile pentru întrebare și răspuns, așa cum vor fi afișate pe site.",
+            "faq-step5": "Pasul 5. Publicați întrebarea nouă.",
+            "faq-step5-desc": "După ce ați completat, faceți clic pe butonul <strong>\"Publish\"</strong> (Publică).",
+            "faq-step6": "Pasul 6. Modificarea unei întrebări.",
+            "faq-step6-desc": "Pentru a modifica o întrebare existentă, faceți clic pe ea în listă, modificați datele și faceți clic pe <strong>\"Publish\"</strong> (Publică).",
+            "faq-step7": "Pasul 7. Ștergerea unei întrebări.",
+            "faq-step7-desc": "Pentru a șterge o întrebare, puteți fie să bifați caseta de lângă întrebarea dorită și să alegeți <strong>\"Move to Trash\"</strong> (Mută în coș) din lista derulantă <strong>\"Bulk Actions\"</strong> (Acțiuni în masă), fie să treceți cu mouse-ul peste întrebare și să faceți clic pe textul roșu <strong>\"Trash\"</strong> (Coș).",
+
+            "footer-title": "12. Subsolul site-ului |Footer|",
+            "footer-content-change-title": "Modificarea conținutului",
+            "footer-step1": "Pasul 1. Accesați pagina Home.",
+            "footer-step1-desc": "Pentru a modifica conținutul subsolului, accesați panoul de administrare și navigați la pagina <strong>\"Home\"</strong> (Acasă).",
+            "footer-step2": "Pasul 2. Selectați \"Footer Settings\".",
+            "footer-step2-desc": "Pe pagina <strong>\"Home\"</strong>, găsiți și extindeți blocul <strong>\"Footer Settings\"</strong> (Setări subsol).",
+            "footer-step3": "Pasul 3. Modificați datele.",
+            "footer-step3-desc": "Modificați datele cu cele dorite.",
+            "footer-step4": "Pasul 4. Salvați modificările.",
+            "footer-step4-desc": "După ce ați făcut modificările, salvați-le pentru a le publica pe site.",
+
+        
+            "developer-title": "Ghid pentru dezvoltator",
+            "developer-intro": "Acesta este proiectul MDED. Mai jos sunt instrucțiunile despre cum să-l implementați pe un alt server de găzduire.",
+            "section-1-title": "1. Cerințe pentru server",
+            "req-1": "PHP 8.1+",
+            "req-2": "MySQL / MariaDB",
+            "req-3": "Apache sau Nginx",
+            "req-4": "phpMyAdmin sau acces la MySQL",
+            "section-2-title": "2. Fișierele proiectului",
+            "project-files-details": "1. Încărcați folderul <code>htdocs</code> pe server în directorul site-ului (de exemplu: /var/www/html/ sau în folderul pentru domeniu).",
+            "section-3-title": "3. Baza de date",
+            "db-step-1": "Accesați phpMyAdmin.",
+            "db-step-2": "În baza de date existentă, selectați «Import».",
+            "db-step-3": "Încărcați fișierul <code>dump.sql</code> (exportul meu).",
+            "db-step-4": "Tabelele proiectului vor apărea în baza de date.",
+            "section-4-title": "4. Configurare",
+            "config-step-1": "Găsiți fișierul de configurare <code>wp-config.php</code>.",
+            "config-step-2": "Introduceți datele corecte pentru conectarea la baza de date:",
+            "config-list-1": "<code>DB_NAME</code> = numele bazei de date (cea existentă)",
+            "config-list-2": "<code>DB_USER</code> = utilizatorul",
+            "config-list-3": "<code>DB_PASSWORD</code> = parola",
+            "config-list-4": "<code>DB_HOST</code> = adresa serverului de găzduire",
+            "section-5-title": "5. Domeniu (opțional)",
+            "domain-step-1": "Asociați domeniul cu folderul <code>htdocs</code>.",
+            "domain-step-2": "Dacă site-ul se conectează la adresa veche, actualizați legăturile (de exemplu, prin tabelul wp_options: <code>siteurl</code> și <code>home</code>).",
+            "section-6-title": "6. Plugin-uri",
+            "plugins-details": "1. Asigurați-vă că ați activat următoarele plugin-uri:",
+            "section-7-title": "7. Temă",
+            "theme-details": "1. Activați tema MDED (fotografia cu fundal albastru și litere albe)",
+            "section-8-title": "8. Gata 🎉",
+            "ready-details": "După acești pași, site-ul MDED ar trebui să fie activat pentru utilizare."
+        }
+    };
+
+    function setLanguage(lang, clickedButton) {
+        const elements = document.querySelectorAll('[data-translate]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+
+        // Update active class for language buttons
+        const langButtons = document.querySelectorAll('.lang-button');
+        langButtons.forEach(button => button.classList.remove('active'));
+        clickedButton.classList.add('active');
+
+        // Update the HTML lang attribute for accessibility
+        document.documentElement.lang = lang;
+        document.title = translations[lang]["page-title"];
+    }
+
+    function showManual(clickedButton) {
+        const splashScreen = document.getElementById('splash-screen');
+        const adminManual = document.getElementById('admin-manual');
+        const developerManual = document.getElementById('developer-manual');
+        const buttons = document.querySelectorAll('.manual-button');
+
+        splashScreen.classList.add('active');
+
+        // Remove 'active' class from all buttons
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        
+        // Add 'active' class to the clicked button
+        clickedButton.classList.add('active');
+
+        // Hide all manuals
+        adminManual.classList.remove('visible');
+        developerManual.classList.remove('visible');
+
+        // Show the selected manual
+        const manualId = clickedButton.getAttribute('data-manual');
+        document.getElementById(manualId).classList.add('visible');
+    }
+
+</script>
+</body>
+</html>

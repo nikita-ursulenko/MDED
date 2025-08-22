@@ -1,0 +1,70 @@
+{% block content %}
+	{% set eligible_sectors_heading = function('get_field', 'eligible_sector_heading') %}
+	{% set eligible_sectors_description = function('get_field', 'eligible_sector_description') %}
+
+	<section id="eligibile">
+		<div class="bg-white rounded-xl shadow-lg p-8">
+			<h3 class="text-5xl font-bold text-center text-gray-900 mb-8">{{ eligible_sectors_heading }}</h3>
+			<p class="text-xl text-gray-600 text-center mb-12 max-w-4xl mx-auto">
+				{{ eligible_sectors_description }}
+			</p>
+
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				{# Sectorul 1 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_1_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_1_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_1_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_1_description') }}</p>
+				</div>
+
+				{# Sectorul 2 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_2_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_2_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_2_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_2_description') }}</p>
+				</div>
+
+				{# Sectorul 3 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_3_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_3_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_3_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_3_description') }}</p>
+				</div>
+
+				{# Sectorul 4 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_4_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_4_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_4_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_4_description') }}</p>
+				</div>
+
+				{# Sectorul 5 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_5_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_5_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_5_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_5_description') }}</p>
+				</div>
+
+				{# Sectorul 6 #}
+				<div class="text-center p-6 rounded-xl border-2 border-gray-200 hover:border-gov-blue hover:shadow-lg transition-all cursor-pointer group">
+					<div class="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-md">
+						<img src="{{ function('get_field', 'sector_6_icon').url }}" alt="Icoana: {{ function('get_field', 'sector_6_name') }}" class="w-full h-full object-cover">
+					</div>
+					<h4 class="text-xl font-bold text-gray-900 mb-2">{{ function('get_field', 'sector_6_name') }}</h4>
+					<p class="text-gray-600">{{ function('get_field', 'sector_6_description') }}</p>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

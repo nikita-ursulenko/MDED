@@ -1,0 +1,121 @@
+{# Получаем текущий язык #}
+{% set language_attribute = site.language_attributes %}
+{% set lang_code_with_country = language_attribute|replace({'lang="': '', '"': ''}) %}
+{% set current_lang = lang_code_with_country|split('-')|first %}
+<header id="header" class="w-full bg-white shadow-md top-0 left-0 static z-40 transition-all duration-300">
+
+	<div class="flex items-center justify-end">
+
+		<div class="flex items-center z-50 w-full lg:hidden p-2">
+			<img src="{{ function('get_site_icon_url') }}" alt="Logo" class="h-12 md:h-16 w-auto logo-blue">
+		</div>
+		<div
+			class="lang-switcher flex items-center bg-gray-700/50 rounded-full text-sm lg:hidden">
+			{# Элемент для румынского языка (RO) #}
+			{% if current_lang == 'ro' %}
+				{# Активный язык #}
+				<span class="px-3 py-2 font-semibold text-white bg-gov-blue rounded-full cursor-default">RO</span>
+				{# Неактивный язык, ссылка #}
+				<a href="/en" class="px-3 py-1 font-semibold text-white hover:bg-gov-blue hover:text-white rounded-full transition-colors duration-300">EN</a>
+			{% else %}
+				{# Элемент для английского языка (EN) #}
+				{# Неактивный язык, ссылка #}
+					<a href="/" class="px-3 py-2 font-semibold text-white hover:bg-gov-blue hover:text-white rounded-full transition-colors duration-300"> RO</a>
+				{# Активный язык #}
+				<span class="px-3 py-2 font-semibold text-white bg-gov-blue rounded-full cursor-default">EN</span>
+			{% endif %}
+		</div>
+		<button id="burger-button" class="burger lg:hidden flex flex-col justify-center items-center w-10 h-10 ml-4 mr-4">
+			<span class="burger-line block w-6 h-0.5 bg-blue-900 mb-1.5"></span>
+			<span class="burger-line block w-6 h-0.5 bg-blue-900 mb-1.5"></span>
+			<span class="burger-line block w-6 h-0.5 bg-blue-900"></span>
+		</button>
+	</div>
+</div>
+
+
+<!-- Desktop nav -->
+<div id="nav_desk" class="hidden lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center bg-gov-blue text-white mx-auto px-6 md:fixed md:z-40 min-w-full" style="height: 64px;">
+	<div class="flex items-center">
+		<img src="{{ function('get_site_icon_url') }}" alt="Logo" class="h-12 md:h-16 w-auto logo-white">
+	</div>
+
+	<nav class="flex justify-center">
+		<ul class="flex space-x">
+			{% for item in main_menu.items %}
+				<li class="nav-item {{ item.current ? 'active' : '' }}">
+					<a href="{{ item.link }}" class="block px-4 py-3 xl:px-6">{{ item.title }}</a>
+					{% if item.children %}
+						<ul class="sub-menu">
+							{% for child in item.children %}
+								<li class="nav-item {{ child.current ? 'active' : '' }}">
+									<a href="{{ child.link }}" class="block px-4 py-3 xl:px-6">{{ child.title }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</li>
+			{% else %}
+				<li class="nav-item px-4 py-3 xl:px-6 text-white">Меню пустое</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	<div
+		class="lang-switcher flex items-center bg-gray-700/50 p-1 rounded-full text-sm">
+		{# Элемент для румынского языка (RO) #}
+		{% if current_lang == 'ro' %}
+			{# Активный язык #}
+			<span class="px-3 py-1 font-semibold text-white bg-gov-blue rounded-full cursor-default">RO</span>
+			{# Неактивный язык, ссылка #}
+			<a href="/en" class="px-3 py-1 font-semibold text-white hover:bg-gov-blue hover:text-white rounded-full transition-colors duration-300">EN</a>
+		{% else %}
+			{# Элемент для английского языка (EN) #}
+			{# Неактивный язык, ссылка #}
+				<a href="/" class="px-3 py-1 font-semibold text-white hover:bg-gov-blue hover:text-white rounded-full transition-colors duration-300"> RO</a>
+			{# Активный язык #}
+			<span class="px-3 py-1 font-semibold text-white bg-gov-blue rounded-full cursor-default">EN</span>
+		{% endif %}
+	</div>
+	<div></div>
+</div>
+
+<!-- Mobile menu и overlay -->
+<div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-64 bg-blue-900 text-white z-50 shadow-lg lg:hidden">
+	<div class="p-4 flex justify-between items-center border-b border-blue-800">
+		<span class="font-bold">Meniu</span>
+		<button id="close-menu" class="text-white">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+			</svg>
+		</button>
+	</div>
+	<ul>
+		{% for item in main_menu.items %}
+			<li class="border-b border-blue-800 {{ item.current ? 'bg-blue-800' : '' }}">
+				<a href="{{ item.link }}" class="block px-4 py-3 hover:bg-blue-800">{{ item.title }}</a>
+				{% if item.children %}
+					<ul>
+						{% for child in item.children %}
+							<li class="border-b border-blue-800 {{ child.current ? 'bg-blue-800' : '' }}">
+								<a href="{{ child.link }}" class="block px-4 py-3 hover:bg-blue-800">{{ child.title }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</li>
+		{% else %}
+			<li class="px-4 py-3 text-white">Меню пустое</li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div id="overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden lg:hidden"></div></header><style>
+/* Класс фиксированного nav_desk */
+#nav_desk.sticky {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1100;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}</style>

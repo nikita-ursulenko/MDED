@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+	{{ site.language_attributes }}>
+	{# Используйте атрибуты языка WordPress #}
+	<head>
+		<meta
+		charset="{{ site.charset }}">
+		{# Установите кодировку #}
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
+		{# Обязательно для адаптивности #}
+
+		<link rel="icon" href="{{ function('get_site_icon_url') }}">
+
+		{{ function('wp_head') }}
+		<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+	</head>
+	<body
+		class="{{ body_class }}">
+		{# Тег body начинается здесь #}
+		{% include "partials/header.twig" %}
+		<main>
+			{% block content %}
+				{% include "partials/hero.twig" %}
+				{% include "partials/despre.twig" %}
+				{% include "partials/succes.twig" %}
+				{% include "partials/eligibile.twig" %}
+				{% include "partials/sprijin.twig" %}
+				{% include "partials/beneficiari.twig" %}
+				{% include "partials/criterii.twig" %}
+				{% include "partials/procedura.twig" %}
+				{% include "partials/instrumente.twig" %}
+				{% include "partials/faq.twig" %}
+			{% endblock %}
+		</main>
+
+		{% include "partials/footer.twig" %}
+
+		{{ function('wp_footer') }}
+	</body>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</html>

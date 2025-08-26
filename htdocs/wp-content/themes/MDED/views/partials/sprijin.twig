@@ -48,11 +48,13 @@
 								{# --- Row 1: Întreprindere mică --- #}
 								{% set small_districts = function('get_field', 'small_enterprise_most_districts') %}
 								{% set small_chisinau = function('get_field', 'small_enterprise_chisinau') %}
+								{# --- Col 1: Întreprindere mică --- #}
+								{% set celul1 = function('get_field', 'fss_table_celula1_title') %}
 
 								{# Only render this row if both percentage fields have values #}
 								{% if small_districts and small_chisinau %}
 									<tr class="hover:bg-gray-50">
-										<td class="px-8 py-6 text-base font-medium text-gray-900">Întreprindere mică</td>
+										<td class="px-8 py-6 text-base font-medium text-gray-900">{{ celul1 }}</td>
 										<td class="px-8 py-6 text-center">
 											<div class="text-2xl font-bold text-green-600">{{ small_districts }}</div>
 										</td>
@@ -65,11 +67,13 @@
 								{# --- Row 2: Întreprindere mijlocie --- #}
 								{% set medium_districts = function('get_field', 'medium_enterprise_most_districts') %}
 								{% set medium_chisinau = function('get_field', 'medium_enterprise_chisinau') %}
+								{# --- Col 2: Întreprindere mijlocie --- #}
+								{% set celul2 = function('get_field', 'fss_table_celula2_title') %}
 
 								{# Only render this row if both percentage fields have values #}
 								{% if medium_districts and medium_chisinau %}
 									<tr class="hover:bg-gray-50">
-										<td class="px-8 py-6 text-base font-medium text-gray-900">Întreprindere mijlocie</td>
+										<td class="px-8 py-6 text-base font-medium text-gray-900">{{ celul2 }}</td>
 										<td class="px-8 py-6 text-center">
 											<div class="text-2xl font-bold text-green-600">{{ medium_districts }}</div>
 										</td>
@@ -82,11 +86,13 @@
 								{# --- Row 3: Întreprindere mare --- #}
 								{% set large_districts = function('get_field', 'large_enterprise_most_districts') %}
 								{% set large_chisinau = function('get_field', 'large_enterprise_chisinau') %}
+								{# --- Col 3: Întreprindere mare --- #}
+								{% set celul3 = function('get_field', 'fss_table_celula3_title') %}
 
 								{# Only render this row if both percentage fields have values #}
 								{% if large_districts and large_chisinau %}
 									<tr class="hover:bg-gray-50">
-										<td class="px-8 py-6 text-base font-medium text-gray-900">Întreprindere mare</td>
+										<td class="px-8 py-6 text-base font-medium text-gray-900">{{ celul3 }}</td>
 										<td class="px-8 py-6 text-center">
 											<div class="text-2xl font-bold text-green-600">{{ large_districts }}</div>
 										</td>

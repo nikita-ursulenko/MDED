@@ -1,5 +1,17 @@
 # 🚀 MDED: Готовый сайт на WordPress
 
+<div align="center">
+  <div style="display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin: 10px 0;">
+    <a href="https://wordpress.org/"><img src="https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress"></a>
+    <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"></a>
+    <a href="https://twig.symfony.com/"><img src="https://img.shields.io/badge/Twig-000000?style=for-the-badge&logo=twig&logoColor=8892BF" alt="Twig"></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+    <a href="https://getcomposer.org/"><img src="https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=composer&logoColor=white" alt="Composer"></a>
+    <a href="https://www.npmjs.com/"><img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white" alt="npm"></a>
+    <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"></a>
+  </div>
+</div>
+
 # **MDED** — это готовый сайт на WordPress, построенный с нуля на современных технологиях. Он отличается чистой архитектурой, высокой производительностью и адаптивным дизайном, что делает его идеальной отправной точкой для вашего проекта.
 
 **MDED** — это кастомная тема для WordPress, созданная с нуля на основе современных технологий. Этот шаблон разработан для тех, кто хочет создавать быстрые, гибкие и управляемые сайты с чистой архитектурой и современным кодом.
